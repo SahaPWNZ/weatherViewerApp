@@ -23,7 +23,7 @@ CREATE TABLE Sessions
 (
     id        VARCHAR(36) PRIMARY KEY,
     userId    INT NOT NULL,
-    expiresAt TIMESTAMP,
+    expiresAt TIMESTAMP NOT NULL,
     FOREIGN KEY (userId) REFERENCES Users (id)
 );
 
