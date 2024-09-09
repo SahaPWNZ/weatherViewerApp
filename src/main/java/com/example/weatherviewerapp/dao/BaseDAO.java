@@ -1,7 +1,9 @@
 package com.example.weatherviewerapp.dao;
 
+
 import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.SessionFactory;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +11,7 @@ public abstract class BaseDAO<T> {
     protected final SessionFactory sessionFactory;
 
     public BaseDAO() {
-        this.sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     public BaseDAO(SessionFactory sessionFactory) {

@@ -1,14 +1,14 @@
 package com.example.weatherviewerapp.dto;
 
-import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
+import lombok.Builder;
+import lombok.Data;
+
 @Builder
-@ToString
+@Data
 public class UserRequestDTO {
     private String login;
     private String password;
+
 }

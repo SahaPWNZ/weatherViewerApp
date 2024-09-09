@@ -3,14 +3,17 @@ package com.example.weatherviewerapp.utils;
 import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.entity.Session;
 import com.example.weatherviewerapp.entity.User;
+
+
 import lombok.Getter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
 public class HibernateUtil {
-    @Getter
-    private static final SessionFactory sessionFactory;
+
+     @Getter
+     private static final SessionFactory sessionFactory;
 
     static {
         sessionFactory = getConfiguration()

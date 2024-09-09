@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
 </head>
 <body>
 <h1>Авторизация</h1>
+
+<div th:if="${error.length()!=null}" style="color: red;" class="error-message">
+    <p th:text="${error}"></p>
+</div>
+
+
 <form action="authorization" method="post">
     <label for="login">Логин:</label>
     <input type="text" id="login" name="login" required><br><br>
@@ -14,5 +19,8 @@
     <input type="password" id="password" name="password" required><br><br>
     <input type="submit" value="Войти">
 </form>
+<a href="registration.html">Регистрация<br></a>
+
+
 </body>
 </html>
