@@ -21,7 +21,7 @@ import java.io.IOException;
 
 
 
-@WebServlet("/authorization")
+@WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
 //    @Override
@@ -33,7 +33,8 @@ public class AuthorizationServlet extends HttpServlet {
 //                .buildExchange(req, resp);
 //
 //        WebContext context = new WebContext(webExchange);
-//        templateEngine.process("main", context, resp.getWriter());
+//
+//        templateEngine.process("sign-in.html", context, resp.getWriter());
 //    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,9 +58,9 @@ public class AuthorizationServlet extends HttpServlet {
             WebContext context = new WebContext(webExchange);
 
 //            resp.setStatus(HttpServletResponse.SC_FOUND); // Установка статуса перенаправления
-//            resp.setHeader("Location", "/main.html"); // Установка URL перенаправления
+//            resp.setHeader("Location", "/sign-in.html"); // Установка URL перенаправления
             context.setVariable("error", "Неправильный логин или пароль");
-            templateEngine.process("main", context, resp.getWriter());
+            templateEngine.process("sign-in.html", context, resp.getWriter());
         }
         else {
             System.out.println("успешная авторизация");
