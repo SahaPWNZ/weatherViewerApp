@@ -1,10 +1,8 @@
 package com.example.weatherviewerapp.utils;
 
 import com.example.weatherviewerapp.entity.Location;
-import com.example.weatherviewerapp.entity.Session;
 import com.example.weatherviewerapp.entity.User;
-
-
+import com.example.weatherviewerapp.entity.UserSession;
 import lombok.Getter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -23,8 +21,9 @@ public class HibernateUtil {
         return new Configuration()
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Location.class)
-                .addAnnotatedClass(Session.class)
+                .addAnnotatedClass(UserSession.class)
                 .configure();
     }
+
 
 }

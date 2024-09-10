@@ -11,7 +11,7 @@ CREATE TABLE Locations
 (
     id        SERIAL PRIMARY KEY,
     name      VARCHAR(100)   NOT NULL,
-    userId    INT            NOT NULL,
+    userId    BIGINT            NOT NULL,
     latitude  DECIMAL(10, 5) NOT NULL,
     longitude DECIMAL(10, 5) NOT NULL,
     FOREIGN KEY (userId) REFERENCES Users (id)
@@ -19,11 +19,13 @@ CREATE TABLE Locations
 
 DROP TABLE Locations;
 
+DROP TABLE Sessions;
+
 CREATE TABLE Sessions
 (
     id        VARCHAR(36) PRIMARY KEY,
-    userId    INT NOT NULL,
+    user_Id    BIGINT NOT NULL UNIQUE ,
     expiresAt TIMESTAMP NOT NULL,
-    FOREIGN KEY (userId) REFERENCES Users (id)
+    FOREIGN KEY (user_Id) REFERENCES Users (id)
 );
 

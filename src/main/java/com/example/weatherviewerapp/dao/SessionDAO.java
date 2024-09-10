@@ -1,28 +1,61 @@
 package com.example.weatherviewerapp.dao;
 
-import com.example.weatherviewerapp.entity.Session;
+
+import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.entity.UserSession;
+import com.example.weatherviewerapp.utils.HibernateUtil;
+import jakarta.transaction.Transactional;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 import java.util.Optional;
 
-public class SessionDAO extends BaseDAO<Session> {
-    @Override
-    public List<Session> findAll() {
-        return null;
+public class SessionDAO {
+    protected final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    public List<UserSession> findAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("select u from Sessions u", UserSession.class).list();
+        }
     }
 
-    @Override
-    public Optional<Session> findById(Long id) {
-        return Optional.empty();
+
+    public Optional<UserSession> findById(String id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(UserSession.class, id));
+        }
     }
 
-    @Override
-    public Session save(Session entity) {
-        return null;
+
+    public UserSession save(UserSession entity) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(entity);
+            transaction.commit();
+            return entity;
+        } catch (
+                HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        }
     }
 
-    @Override
-    public void delete(Long id) {
 
+    public void delete(String id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            UserSession userSession = session.get(UserSession.class, id);
+            if (userSession != null) {
+                session.remove(userSession);
+            }
+            session.getTransaction().commit();
+        }
     }
+
 }

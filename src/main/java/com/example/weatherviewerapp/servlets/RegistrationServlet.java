@@ -49,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
 
             User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);
             userDAO.save(user); // обработки ошибок (на повторение логина, проблемы с бд)
-            resp.sendRedirect("test1.html");
+            resp.sendRedirect("main.html");
         }
 
 

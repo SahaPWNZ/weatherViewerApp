@@ -1,13 +1,17 @@
 package com.example.weatherviewerapp.servlets;
 
+import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
+import com.example.weatherviewerapp.dto.UserSessionDTO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.exception.AuthenticatonException;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
+import com.example.weatherviewerapp.utils.MappingUtils;
 import com.example.weatherviewerapp.utils.UserMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,13 +22,16 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 
 import java.io.IOException;
-
+import java.sql.Timestamp;
+import java.util.UUID;
 
 
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
-//    @Override
+    SessionDAO sessionDAO = new SessionDAO();
+
+    //    @Override
 //    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
 //                ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
@@ -42,12 +49,12 @@ public class AuthorizationServlet extends HttpServlet {
                 .login(req.getParameter("login"))
                 .password(req.getParameter("password"))
                 .build();
-
-        System.out.println(userRequestDTO);
+        //метод куда мы отправляем ДТО, а обратно получаем опшионал
         User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);
-        System.out.println(user);
+        user = userDAO.findByLoginAndPass(user.getLogin(), user.getPassword()).orElse(null);
 
-        if (userDAO.findByLoginAndPass(userRequestDTO.getLogin(), userRequestDTO.getPassword()).isEmpty()){
+
+        if (user == null) {
 
             TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                     ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
@@ -61,11 +68,20 @@ public class AuthorizationServlet extends HttpServlet {
 //            resp.setHeader("Location", "/sign-in.html"); // Установка URL перенаправления
             context.setVariable("error", "Неправильный логин или пароль");
             templateEngine.process("sign-in.html", context, resp.getWriter());
-        }
-        else {
+        } else {
             System.out.println("успешная авторизация");
+            UserSessionDTO userSessionDTO = UserSessionDTO.builder()
+                    .GUID(UUID.randomUUID().toString())
+                    .userId(user.getId())
+                    .timestamp(new Timestamp(System.currentTimeMillis() + 3600000)) //текущая дата + час
+                    .build();
+            sessionDAO.save(MappingUtils.toUserSessionFromDTO(userSessionDTO));
+            Cookie cookie = new Cookie("userID", userSessionDTO.getGUID() );
+            cookie.setMaxAge(3600);
+            resp.addCookie(cookie);
+            System.out.println("свой куки: "+ cookie.getValue()+"____"+cookie.getValue().length());
             //обновление сессии в бд
-            resp.sendRedirect("/test1.html");
+            resp.sendRedirect("main.html");
         }
 
     }
