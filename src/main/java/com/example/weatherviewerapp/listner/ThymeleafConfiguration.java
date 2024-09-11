@@ -23,7 +23,6 @@ public class ThymeleafConfiguration implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         this.application = JakartaServletWebApplication.buildApplication(sce.getServletContext());
         this.templateEngine = templateEngine(this.application);
-
         sce.getServletContext().setAttribute(TEMPLATE_ENGINE_ATTR, templateEngine);
     }
 
@@ -48,8 +47,4 @@ public class ThymeleafConfiguration implements ServletContextListener {
         return templateResolver;
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        // NOP
-    }
 }

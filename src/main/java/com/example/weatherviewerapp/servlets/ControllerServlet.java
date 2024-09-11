@@ -12,12 +12,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
     SessionDAO sessionDAO = new SessionDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Cookie cookie = CookieValidator.CheckCookie(req);
         if (cookie == null) {
             System.out.println("Куки юзерАйди равен нулл");

@@ -15,9 +15,10 @@ import java.util.Optional;
 
 public class SessionDAO {
     protected final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
     public List<UserSession> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("select u from Sessions u", UserSession.class).list();
+            return session.createQuery("select u from UserSession u", UserSession.class).list();
         }
     }
 
@@ -55,6 +56,7 @@ public class SessionDAO {
                 session.remove(userSession);
             }
             session.getTransaction().commit();
+            System.out.println("удалена сессия с кодом:"+" "+id);
         }
     }
 

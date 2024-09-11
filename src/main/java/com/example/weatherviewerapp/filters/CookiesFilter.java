@@ -13,10 +13,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter("/main")
-public class CookiesFilter extends HttpFilter {
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+//@WebFilter("/main.html")
+//public class CookiesFilter extends HttpFilter {
+//    @Override
+//    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+//        System.out.println("фильтр работает mainhtml");
 //        Cookie cookie = CookieValidator.CheckCookie(req);
 //
 //        if (cookie==null){
@@ -33,6 +34,6 @@ public class CookiesFilter extends HttpFilter {
 ////        }
 //        HttpServletResponse httpResp = (HttpServletResponse) res;
 //        httpResp.sendRedirect("sign-on");
-        super.doFilter(req, res, chain);
-    }
-}
+//        super.doFilter(req, res, chain);
+//    }
+//}

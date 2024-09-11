@@ -58,7 +58,7 @@ public class AuthorizationServlet extends HttpServlet {
             UserSessionDTO userSessionDTO = UserSessionDTO.builder()
                     .GUID(UUID.randomUUID().toString())
                     .userId(user.getId())
-                    .timestamp(new Timestamp(System.currentTimeMillis() + 3600000)) //текущая дата + час
+                    .timestamp(new Timestamp(System.currentTimeMillis() + 450000)) //текущая дата + час (3600000
                     .build();
             sessionDAO.save(MappingUtils.toUserSessionFromDTO(userSessionDTO));
             Cookie cookie = new Cookie("userID", userSessionDTO.getGUID() );

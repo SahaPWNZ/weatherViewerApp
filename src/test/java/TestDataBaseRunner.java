@@ -1,6 +1,7 @@
 import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.entity.UserSession;
 import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,6 +29,13 @@ public class TestDataBaseRunner {
         List<User> listU = userDAO.findAll();
         for (User user: listU){
             System.out.println(user);
+        }
+    }
+    @Test
+    public void testSessionDAO(){
+        List<UserSession> listU = sessionDAO.findAll();
+        for(UserSession userSession: listU){
+            System.out.println(userSession);
         }
     }
 

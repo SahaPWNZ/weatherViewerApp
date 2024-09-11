@@ -8,9 +8,6 @@ import java.util.Arrays;
 
 public class CookieValidator {
     public static Cookie CheckCookie(HttpServletRequest request) {
-        for (Cookie cookie : request.getCookies()) {
-            System.out.println(cookie.getName() + ":::" + cookie.getValue());
-        }
         if (request.getCookies() == null) {
             return null;
         } else {
