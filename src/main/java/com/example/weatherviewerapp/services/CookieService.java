@@ -9,9 +9,9 @@ public class CookieService {
 // Timestamp timestamp = new Timestamp(System.currentTimeMillis())
    // timestamp\.setTime(timestamp\.getTime() + 3600000);
 public void addCookie(UserSessionDTO userSessionDTO){
-
+//добавляет куки авторизованному пользователюэ
 }
-   //добавляет куки авторизованному пользователю
+
 
     //обновляет состояние по времени в бд, при новом захде пользователя
 

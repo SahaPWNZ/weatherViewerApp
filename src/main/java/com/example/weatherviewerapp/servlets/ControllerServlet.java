@@ -1,6 +1,7 @@
 package com.example.weatherviewerapp.servlets;
 
 import com.example.weatherviewerapp.dao.SessionDAO;
+import com.example.weatherviewerapp.entity.UserSession;
 import com.example.weatherviewerapp.utils.CookieValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
@@ -22,6 +24,10 @@ public class ControllerServlet extends HttpServlet {
             resp.sendRedirect("sign-in.html");
         } else {
             if(sessionDAO.findById(cookie.getValue()).isPresent()){
+
+                UserSession userSession = sessionDAO.findById(cookie.getValue()).get();
+                userSession.setTimestamp(new Timestamp(System.currentTimeMillis()+3600000));
+                sessionDAO.save(userSession);
                 resp.sendRedirect("main.html");
             }
             else {

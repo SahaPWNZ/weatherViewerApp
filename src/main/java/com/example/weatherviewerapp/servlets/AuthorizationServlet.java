@@ -31,18 +31,6 @@ public class AuthorizationServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
     SessionDAO sessionDAO = new SessionDAO();
 
-    //    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
-//                ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
-//
-//        IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
-//                .buildExchange(req, resp);
-//
-//        WebContext context = new WebContext(webExchange);
-//
-//        templateEngine.process("sign-in.html", context, resp.getWriter());
-//    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserRequestDTO userRequestDTO = UserRequestDTO.builder()
@@ -63,9 +51,6 @@ public class AuthorizationServlet extends HttpServlet {
                     .buildExchange(req, resp);
 
             WebContext context = new WebContext(webExchange);
-
-//            resp.setStatus(HttpServletResponse.SC_FOUND); // Установка статуса перенаправления
-//            resp.setHeader("Location", "/sign-in.html"); // Установка URL перенаправления
             context.setVariable("error", "Неправильный логин или пароль");
             templateEngine.process("sign-in.html", context, resp.getWriter());
         } else {
@@ -79,7 +64,6 @@ public class AuthorizationServlet extends HttpServlet {
             Cookie cookie = new Cookie("userID", userSessionDTO.getGUID() );
             cookie.setMaxAge(3600);
             resp.addCookie(cookie);
-            System.out.println("свой куки: "+ cookie.getValue()+"____"+cookie.getValue().length());
             //обновление сессии в бд
             resp.sendRedirect("main.html");
         }

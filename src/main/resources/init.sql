@@ -24,7 +24,7 @@ DROP TABLE Sessions;
 CREATE TABLE Sessions
 (
     id        VARCHAR(36) PRIMARY KEY,
-    user_Id    BIGINT NOT NULL UNIQUE ,
+    user_Id    BIGINT NOT NULL,
     expiresAt TIMESTAMP NOT NULL,
     FOREIGN KEY (user_Id) REFERENCES Users (id)
 );

@@ -18,7 +18,7 @@ public class UserSession {
     @Id
     @Column(name = "id", length = 36, nullable = false)
     private String id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(name = "expiresAt", nullable = false)
