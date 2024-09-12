@@ -11,11 +11,9 @@ public class Scheduler {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void startCleanUpTusk(){
-        System.out.println("шедулер запущ");
-        scheduler.scheduleAtFixedRate(new DataBaseCleanupTusk(), 0, 5, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(new DataBaseCleanupTusk(), 0, 3, TimeUnit.MINUTES);
     }
     public void stopCleanupTask() {
-        System.out.println("шедулер остановлен");
         scheduler.shutdown();
     }
 }

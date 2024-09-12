@@ -13,16 +13,12 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 @WebListener
 public class ThymeleafConfiguration implements ServletContextListener {
 
-    public static final String TEMPLATE_ENGINE_ATTR = "com.huongdanjava.thymeleaf.TemplateEngineInstance";
-
-    private ITemplateEngine templateEngine;
-
-    private JakartaServletWebApplication application;
+    public static final String TEMPLATE_ENGINE_ATTR = "com.example.weatherviewrapp.TemplateEngineInstance";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        this.application = JakartaServletWebApplication.buildApplication(sce.getServletContext());
-        this.templateEngine = templateEngine(this.application);
+        JakartaServletWebApplication application = JakartaServletWebApplication.buildApplication(sce.getServletContext());
+        ITemplateEngine templateEngine = templateEngine(application);
         sce.getServletContext().setAttribute(TEMPLATE_ENGINE_ATTR, templateEngine);
     }
 
@@ -38,7 +34,6 @@ public class ThymeleafConfiguration implements ServletContextListener {
     private WebApplicationTemplateResolver templateResolver(IWebApplication application) {
         WebApplicationTemplateResolver templateResolver = new WebApplicationTemplateResolver(application);
 
-        // HTML is the default mode, but we will set it anyway for better understanding of code
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setPrefix("/");

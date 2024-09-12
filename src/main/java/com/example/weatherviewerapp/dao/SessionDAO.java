@@ -13,8 +13,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public class SessionDAO {
-    protected final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+public class SessionDAO extends BaseDAO<UserSession, String>{
 
     public List<UserSession> findAll() {
         try (Session session = sessionFactory.openSession()) {

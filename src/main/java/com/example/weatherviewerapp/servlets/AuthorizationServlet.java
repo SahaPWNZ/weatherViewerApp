@@ -61,11 +61,11 @@ public class AuthorizationServlet extends HttpServlet {
                     .timestamp(new Timestamp(System.currentTimeMillis() + 450000)) //текущая дата + час (3600000
                     .build();
             sessionDAO.save(MappingUtils.toUserSessionFromDTO(userSessionDTO));
-            Cookie cookie = new Cookie("userID", userSessionDTO.getGUID() );
+            Cookie cookie = new Cookie("sessionId", userSessionDTO.getGUID() );
             cookie.setMaxAge(3600);
             resp.addCookie(cookie);
             //обновление сессии в бд
-            resp.sendRedirect("main.html");
+            resp.sendRedirect("index.html");
         }
 
     }

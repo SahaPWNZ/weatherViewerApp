@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAO extends BaseDAO<User> {
+public class UserDAO extends BaseDAO<User, Long> {
     @Override
     public List<User> findAll() {
         try (Session session = sessionFactory.openSession()) {
