@@ -1,5 +1,6 @@
 import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
 import com.example.weatherviewerapp.utils.HibernateUtil;
