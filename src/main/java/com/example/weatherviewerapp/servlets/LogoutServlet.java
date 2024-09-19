@@ -19,6 +19,8 @@ public class LogoutServlet extends HttpServlet {
         if(cookie!=null){
             cookieService.deliteCookie(cookie);
         }
+
+
         resp.sendRedirect("sign-in.html");
     }
 }

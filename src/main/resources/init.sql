@@ -2,7 +2,7 @@ CREATE TABLE Users
 (
     id       SERIAL PRIMARY KEY,
     login    VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100)        NOT NULL
+    password VARCHAR(150)        NOT NULL
 );
 
 DROP TABLE Users;

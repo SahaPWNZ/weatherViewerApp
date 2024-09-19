@@ -10,6 +10,7 @@ import com.example.weatherviewerapp.exception.AuthenticatonException;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.services.OpenWeatherService;
 import com.example.weatherviewerapp.utils.MappingUtils;
 import com.example.weatherviewerapp.utils.UserMapper;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -37,6 +39,7 @@ public class AuthorizationServlet extends HttpServlet {
 
 private final AuthorizationService authorizationService = new AuthorizationService();
 private final CookieService cookieService = new CookieService();
+private final OpenWeatherService openWeatherService = new OpenWeatherService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -44,6 +47,13 @@ private final CookieService cookieService = new CookieService();
                 .login(req.getParameter("login"))
                 .password(req.getParameter("password"))
                 .build();
+
+        try {
+            openWeatherService.httpMethod("Brest");
+            openWeatherService.httpMethod("Moscow");
+        } catch (URISyntaxException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         UserResponseDTO userResponseDTO = authorizationService.getUserDTO(userRequestDTO);
 

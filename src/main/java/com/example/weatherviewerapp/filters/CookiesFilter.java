@@ -1,6 +1,7 @@
 package com.example.weatherviewerapp.filters;
 
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.utils.ConfigUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -21,10 +22,13 @@ public class CookiesFilter extends HttpFilter {
 
     @Override
     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+
         log.info(ANSI_GREEN + "Запуск фильтра Куки" + ANSI_RESET);
         Cookie cookie = cookieService.getCookie(req);
+       log.info(cookie.getValue());
 
-        if (cookie == null || !cookieService.isCookieInDB(cookie)) {
+        log.info(ConfigUtil.getApiKey());
+        if (!cookieService.isCookieInDB(cookie)) {
             log.info(ANSI_GREEN + "Нужных куки нет, перенаправление на sign-in" + ANSI_RESET);
             res.sendRedirect("sign-in.html");
         } else {

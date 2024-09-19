@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.web.IWebExchange;
@@ -29,9 +30,6 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pass = req.getParameter("password");
         String confirmPass = req.getParameter("confirm_password");
-        System.out.println(pass);
-        System.out.println(confirmPass);
-        System.out.println(pass.equals(confirmPass));
         if(!pass.equals(confirmPass)){
             TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                     ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
@@ -42,9 +40,10 @@ public class RegistrationServlet extends HttpServlet {
             templateEngine.process("sign-on.html", context, resp.getWriter());
         }
         else {
+
             UserRequestDTO userRequestDTO = UserRequestDTO.builder()
                     .login(req.getParameter("login"))
-                    .password(req.getParameter("password"))
+                    .password(BCrypt.hashpw(pass, BCrypt.gensalt()))
                     .build();
 
             User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);

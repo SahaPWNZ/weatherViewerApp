@@ -55,14 +55,14 @@ public class UserDAO extends BaseDAO<User, Long> {
         }
         //catch
     }
-public Optional<User> findByLoginAndPass(String login, String password){
-        try(Session session = sessionFactory.openSession()){
+
+    public Optional<User> findByLogin(String login) {
+        try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.createQuery("FROM User u " +
-                    "WHERE u.login = :login AND u.password = :password", User.class)
+                            "WHERE u.login = :login", User.class)
                     .setParameter("login", login)
-                    .setParameter("password", password)
                     .uniqueResult());
         }
-}
+    }
 
 }
