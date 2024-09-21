@@ -36,6 +36,7 @@ public class ThymeleafConfiguration implements ServletContextListener {
 
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
+//        templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setPrefix("/");
         templateResolver.setSuffix(".html");
         templateResolver.setCacheable(false);

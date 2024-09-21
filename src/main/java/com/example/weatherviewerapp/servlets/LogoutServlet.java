@@ -17,10 +17,11 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Cookie cookie = cookieService.getCookie(req);
         if(cookie!=null){
+
             cookieService.deliteCookie(cookie);
+            cookie.setMaxAge(0);
+            resp.addCookie(cookie);
         }
-
-
         resp.sendRedirect("sign-in.html");
     }
 }

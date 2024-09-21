@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = {"/index.html"})
+@WebFilter(urlPatterns = {"/main.html", "/"})
+//@WebFilter("/*")
 public class CookiesFilter extends HttpFilter {
     private final CookieService cookieService = new CookieService();
     public static final String ANSI_RESET = "\u001B[0m";
@@ -22,20 +23,44 @@ public class CookiesFilter extends HttpFilter {
 
     @Override
     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-
-        log.info(ANSI_GREEN + "Запуск фильтра Куки" + ANSI_RESET);
+        log.info(req.getRequestURI());
+        String path = req.getRequestURI();
         Cookie cookie = cookieService.getCookie(req);
-       log.info(cookie.getValue());
+        if (path.equals("/main.html")){
+            log.info(ANSI_GREEN + "Запуск фильтра Куки для /main.html" + ANSI_RESET);
 
-        log.info(ConfigUtil.getApiKey());
-        if (!cookieService.isCookieInDB(cookie)) {
-            log.info(ANSI_GREEN + "Нужных куки нет, перенаправление на sign-in" + ANSI_RESET);
-            res.sendRedirect("sign-in.html");
-        } else {
-            log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
-            cookieService.updateUserSession(cookie);
-            super.doFilter(req, res, chain);
-
+            if (cookie != null && cookieService.isCookieInDB(cookie) ) {
+                log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
+                cookieService.updateUserSession(cookie);
+                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                res.setHeader("Pragma", "no-cache");
+                res.setDateHeader("Expires", 0);
+                chain.doFilter(req, res);
+                return;
+            }
+            else {
+                log.info("куки равны нал, или их нет в бд, перенаправляю на sign-in");
+                res.sendRedirect("/sign-in.html");
+                return;
+            }
         }
+        else if (path.equals("/")){
+            log.info(ANSI_GREEN + "Запуск фильтра Куки для /" + ANSI_RESET);
+            if (cookie != null && cookieService.isCookieInDB(cookie) ) {
+                log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
+                cookieService.updateUserSession(cookie);
+                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                res.setHeader("Pragma", "no-cache");
+                res.setDateHeader("Expires", 0);
+                res.sendRedirect("main.html");
+                return;
+            }
+            else {
+                log.info("куки равны нал, или их нет в бд, перенаправляю на sign-in");
+                res.sendRedirect("/sign-in.html");
+                return;
+            }
+        }
+
     }
 }

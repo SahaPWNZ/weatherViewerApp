@@ -40,6 +40,7 @@ public class AuthorizationServlet extends HttpServlet {
 private final AuthorizationService authorizationService = new AuthorizationService();
 private final CookieService cookieService = new CookieService();
 private final OpenWeatherService openWeatherService = new OpenWeatherService();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -72,7 +73,10 @@ private final OpenWeatherService openWeatherService = new OpenWeatherService();
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
 
             resp.addCookie(cookie);
-            resp.sendRedirect("index.html");
+            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            resp.setHeader("Pragma", "no-cache");
+            resp.setDateHeader("Expires", 0);
+            resp.sendRedirect("main.html");
         }
 
     }

@@ -18,8 +18,13 @@ public class CookieService {
 
     public Cookie getCookie(HttpServletRequest request) {
         if (request.getCookies() == null) {
+            System.out.println("null");
             return null;
+
         } else {
+            for(Cookie cookie: request.getCookies()){
+                System.out.println(cookie.getName()+"   "+cookie.getValue());
+            }
             return Arrays.stream(request.getCookies())
                     .filter(cookie -> cookie.getName().equals("sessionId"))
                     .findFirst()
