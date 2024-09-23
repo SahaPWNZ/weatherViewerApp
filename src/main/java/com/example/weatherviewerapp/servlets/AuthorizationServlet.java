@@ -37,9 +37,9 @@ import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
 
-private final AuthorizationService authorizationService = new AuthorizationService();
-private final CookieService cookieService = new CookieService();
-private final OpenWeatherService openWeatherService = new OpenWeatherService();
+    private final AuthorizationService authorizationService = new AuthorizationService();
+    private final CookieService cookieService = new CookieService();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,12 +49,6 @@ private final OpenWeatherService openWeatherService = new OpenWeatherService();
                 .password(req.getParameter("password"))
                 .build();
 
-        try {
-            openWeatherService.httpMethod("Brest");
-            openWeatherService.httpMethod("Moscow");
-        } catch (URISyntaxException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
         UserResponseDTO userResponseDTO = authorizationService.getUserDTO(userRequestDTO);
 
@@ -73,9 +67,9 @@ private final OpenWeatherService openWeatherService = new OpenWeatherService();
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
 
             resp.addCookie(cookie);
-            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-            resp.setHeader("Pragma", "no-cache");
-            resp.setDateHeader("Expires", 0);
+//            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//            resp.setHeader("Pragma", "no-cache");
+//            resp.setDateHeader("Expires", 0);
             resp.sendRedirect("main.html");
         }
 
