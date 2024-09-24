@@ -5,7 +5,6 @@ import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;

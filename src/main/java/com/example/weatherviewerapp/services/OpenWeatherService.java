@@ -73,11 +73,12 @@ public class OpenWeatherService {
         locationsDAO.save(locationResponseDTO);
     }
 
-    public WeatherCardDTO getWeatherForCoordinates(double lat, double lon) {
+    public WeatherCardDTO getWeatherForLocation(double lat, double lon, Long id) {
         try {
             var weatherResponseDTO = getWeatherForCoordinatesHttpMethod(lat, lon);
 
             return WeatherCardDTO.builder()
+                    .locationId(id)
                     .temp(weatherResponseDTO.getMain().getTemp())
                     .feelsLike(weatherResponseDTO.getMain().getFeelsLike())
                     .description(weatherResponseDTO.getWeather()[0].getDescription())
@@ -93,7 +94,7 @@ public class OpenWeatherService {
         var ListLocations = locationsDAO.findAllbyUserId(id);
         List<WeatherCardDTO> allWeatherCards = new ArrayList<>();
         for (Location location : ListLocations) {
-            allWeatherCards.add(getWeatherForCoordinates(location.getLat(), location.getLon()));
+            allWeatherCards.add(getWeatherForLocation(location.getLat(), location.getLon(), location.getId()));
         }
         return allWeatherCards;
     }

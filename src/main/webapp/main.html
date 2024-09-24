@@ -30,8 +30,8 @@
             <p th:text="'Температура:'+${card.temp}"></p>
             <h3 th:text="'Локация:'+${card.nameLocation}"></h3>
             <h3 th:text="'Страна:'+${card.country}"></h3>
-            <form method="post" th:action="@{/-}">
-                <input type="hidden" th:name="'lat'" th:value="${card.nameLocation}" />
+            <form method="post" th:action="@{/deleteWeatherCard}">
+                <input type="hidden" th:name="'locationId'" th:value="${card.locationId}" />
                 <button type="submit">Удалить</button>
             </form>
         </div>
