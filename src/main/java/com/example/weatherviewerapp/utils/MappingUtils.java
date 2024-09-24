@@ -2,6 +2,8 @@ package com.example.weatherviewerapp.utils;
 
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserSessionDTO;
+import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
+import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
 

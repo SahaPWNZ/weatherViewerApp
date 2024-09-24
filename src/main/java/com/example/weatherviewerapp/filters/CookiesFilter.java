@@ -1,6 +1,10 @@
 package com.example.weatherviewerapp.filters;
 
+import com.example.weatherviewerapp.dto.UserRequestDTO;
+import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
+import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.services.OpenWeatherService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -9,18 +13,33 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.web.IWebExchange;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @WebFilter(urlPatterns = {"/main.html", "/", "/sign-in.html", "/sign-on.html"})
 public class CookiesFilter extends HttpFilter {
+    private final OpenWeatherService openWeatherService = new OpenWeatherService();
     private final CookieService cookieService = new CookieService();
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
 
+
     @Override
     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
+                ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
+        IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
+                .buildExchange(req, res);
+
+        WebContext context = new WebContext(webExchange);
+
+
         log.info(req.getRequestURI());
         String path = req.getRequestURI();
         Cookie cookie = cookieService.getCookie(req);
@@ -29,10 +48,17 @@ public class CookiesFilter extends HttpFilter {
             if (cookie != null && cookieService.isCookieInDB(cookie)) {
                 log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
                 cookieService.updateUserSession(cookie);
-                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-                res.setHeader("Pragma", "no-cache");
-                res.setDateHeader("Expires", 0);
-                chain.doFilter(req, res);
+
+                log.info(String.valueOf(cookieService.getUserIdForCookie(cookie).getId()));
+                var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
+
+                context.setVariable("weatherCards", weatherCards);
+                templateEngine.process("main.html", context, res.getWriter());
+
+                //                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//                res.setHeader("Pragma", "no-cache");
+//                res.setDateHeader("Expires", 0);
+//                chain.doFilter(req, res);
             } else {
                 log.info("куки равны нал, или их нет в бд, перенаправляю на sign-in");
                 res.sendRedirect("/sign-in.html");

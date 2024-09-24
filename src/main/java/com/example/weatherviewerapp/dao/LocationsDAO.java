@@ -1,31 +1,31 @@
 package com.example.weatherviewerapp.dao;
 
-import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.entity.Location;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAO extends BaseDAO<User, Long> {
+public class LocationsDAO extends BaseDAO<Location, Long> {
     @Override
-    public List<User> findAll() {
+    public List<Location> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("select u from User u", User.class).list();
+            return session.createQuery("select l from Location l", Location.class).list();
         }
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return Optional.ofNullable(session.get(User.class, id));
+    public Optional<Location> findById(Long id) {
+        try(Session session = sessionFactory.openSession()){
+            return Optional.ofNullable(session.get(Location.class, id));
         }
-        //ошибка
     }
 
     @Override
-    public User save(User entity) {
+    public Location save(Location entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -38,7 +38,6 @@ public class UserDAO extends BaseDAO<User, Long> {
             }
             throw e;
         }
-
     }
 
     @Override
@@ -46,22 +45,18 @@ public class UserDAO extends BaseDAO<User, Long> {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User user = session.get(User.class, id);
-            if (user != null) {
-                session.remove(user);
+            Location match = session.get(Location.class, id);
+            if (match != null) {
+                session.remove(match);
             }
 
             session.getTransaction().commit();
         }
-        //catch
     }
 
-    public Optional<User> findByLogin(String login) {
-        try (Session session = sessionFactory.openSession()) {
-            return Optional.ofNullable(session.createQuery("FROM User u " +
-                            "WHERE u.login = :login", User.class)
-                    .setParameter("login", login)
-                    .uniqueResult());
+    public List<Location> findAllbyUserId(Long id){
+        try(Session session = sessionFactory.openSession()){
+         return session.createQuery("Select l From Location l Where l.user.id = :id", Location.class).setParameter("id", id).list();
         }
     }
 

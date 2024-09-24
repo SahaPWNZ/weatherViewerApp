@@ -10,11 +10,11 @@ DROP TABLE Users;
 CREATE TABLE Locations
 (
     id        SERIAL PRIMARY KEY,
-    name      VARCHAR(100)   NOT NULL,
-    userId    BIGINT            NOT NULL,
-    latitude  DECIMAL(10, 5) NOT NULL,
-    longitude DECIMAL(10, 5) NOT NULL,
-    FOREIGN KEY (userId) REFERENCES Users (id)
+    name      VARCHAR(30) NOT NULL,
+    user_Id    BIGINT NOT NULL,
+    Latitude  DECIMAL(10, 8) NOT NULL,
+    Longitude DECIMAL(11, 8) NOT NULL,
+    FOREIGN KEY (user_Id) REFERENCES Users (id) ON DELETE CASCADE
 );
 
 DROP TABLE Locations;
@@ -24,8 +24,8 @@ DROP TABLE Sessions;
 CREATE TABLE Sessions
 (
     id        VARCHAR(36) PRIMARY KEY,
-    user_Id    BIGINT NOT NULL,
+    user_Id   BIGINT    NOT NULL,
     expiresAt TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_Id) REFERENCES Users (id)
+    FOREIGN KEY (user_Id) REFERENCES Users (id) ON DELETE CASCADE
 );
 

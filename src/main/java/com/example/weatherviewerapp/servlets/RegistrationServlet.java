@@ -40,7 +40,6 @@ public class RegistrationServlet extends HttpServlet {
             templateEngine.process("sign-on.html", context, resp.getWriter());
         }
         else {
-
             UserRequestDTO userRequestDTO = UserRequestDTO.builder()
                     .login(req.getParameter("login"))
                     .password(BCrypt.hashpw(pass, BCrypt.gensalt()))
@@ -50,11 +49,5 @@ public class RegistrationServlet extends HttpServlet {
             userDAO.save(user); // обработки ошибок (на повторение логина, проблемы с бд)
             resp.sendRedirect("main.html");
         }
-
-
-        //добавляем в бд, (тут если пытаются добавить с таким же логином -
-        // то ловим исключение и выводим пользователю что с таким логином уже есть
-
-        //редиректим на мэйн страницу
     }
 }

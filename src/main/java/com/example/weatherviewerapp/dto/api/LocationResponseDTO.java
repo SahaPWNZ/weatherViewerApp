@@ -1,19 +1,27 @@
-package com.example.weatherviewerapp.dto;
+package com.example.weatherviewerapp.dto.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
 @Setter
 @Getter
-@JsonIgnoreProperties({"local_names", "state"})
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LocationResponseDTO {
+    @JsonProperty("name")
     private String name;
-    private double lat;
-    private double lon;
+
+    @JsonProperty("lat")
+    private Double lat;
+
+    @JsonProperty("lon")
+    private Double lon;
+
+    @JsonProperty("country")
     private String country;
-//    @JsonProperty("local_names")
-//    private Map<String, String> localNames;
-//    private String state;
 
 
     @Override
@@ -22,7 +30,6 @@ public class LocationResponseDTO {
                 "name='" + name + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
-//                ", localNames=" + localNames +
                 ", country='" + country + '\'' +
 //                ", state='" + state + '\'' +
                 '}';

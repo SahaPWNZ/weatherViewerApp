@@ -1,6 +1,5 @@
 package com.example.weatherviewerapp.services;
 
-import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
@@ -13,7 +12,6 @@ import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
 
 @Slf4j
 public class AuthorizationService {
-    private final SessionDAO sessionDAO = new SessionDAO();
     private final UserDAO userDAO = new UserDAO();
 
 

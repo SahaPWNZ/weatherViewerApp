@@ -1,18 +1,12 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.SessionDAO;
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
-import com.example.weatherviewerapp.dto.UserSessionDTO;
-import com.example.weatherviewerapp.entity.User;
-import com.example.weatherviewerapp.exception.AuthenticatonException;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
-import com.example.weatherviewerapp.utils.MappingUtils;
-import com.example.weatherviewerapp.utils.UserMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -26,9 +20,8 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_GREEN;
 import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
@@ -37,12 +30,19 @@ import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
 
+    private final OpenWeatherService openWeatherService = new OpenWeatherService();
     private final AuthorizationService authorizationService = new AuthorizationService();
     private final CookieService cookieService = new CookieService();
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
+                ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
+        IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
+                .buildExchange(req, resp);
+
+        WebContext context = new WebContext(webExchange);
 
         UserRequestDTO userRequestDTO = UserRequestDTO.builder()
                 .login(req.getParameter("login"))
@@ -54,14 +54,9 @@ public class AuthorizationServlet extends HttpServlet {
 
         if (userResponseDTO == null) {
 
-            TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
-                    ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
-            IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
-                    .buildExchange(req, resp);
-
-            WebContext context = new WebContext(webExchange);
             context.setVariable("error", "Неправильный логин или пароль");
             templateEngine.process("sign-in.html", context, resp.getWriter());
+
         } else {
             log(ANSI_GREEN + "Успешная авторизация, создание Куки" + ANSI_RESET);
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
@@ -70,7 +65,11 @@ public class AuthorizationServlet extends HttpServlet {
 //            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 //            resp.setHeader("Pragma", "no-cache");
 //            resp.setDateHeader("Expires", 0);
-            resp.sendRedirect("main.html");
+
+            var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
+            context.setVariable("weatherCards", weatherCards);
+            templateEngine.process("main.html", context, resp.getWriter());
+//            resp.sendRedirect("main.html");
         }
 
     }

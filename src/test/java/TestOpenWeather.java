@@ -1,3 +1,6 @@
+import com.example.weatherviewerapp.dto.WeatherCardDTO;
+import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
+import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
 import org.junit.jupiter.api.Test;
 
@@ -6,12 +9,17 @@ import java.net.URISyntaxException;
 
 
 public class TestOpenWeather {
-    private static final  OpenWeatherService openWeatherService = new OpenWeatherService();
-
+    private final  OpenWeatherService openWeatherService = new OpenWeatherService();
+private final CookieService cookieService = new CookieService();
 @Test
     public void test1() throws URISyntaxException, IOException, InterruptedException {
-    var a = openWeatherService.getLocationsHttpMethod("Minsk");
-    System.out.println(a.get(0).getLat() +" : "+ a.get(0).getLon());
-    openWeatherService.getWeatherForCoordinatesHttpMethod(a.get(0));
+    var a = openWeatherService.getLocationsHttpMethod("Минск");
+    for(LocationResponseDTO location: a){
+        System.out.println(location);
+    }
+    var cards = openWeatherService.findAllWeatherCards(3L);
+    for(WeatherCardDTO card: cards){
+        System.out.println(card);
+    }
 }
 }

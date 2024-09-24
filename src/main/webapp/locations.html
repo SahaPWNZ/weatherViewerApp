@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Найденные локации</title>
+</head>
+<body>
+
+<form method="get" action="/logout">
+    <input type="submit" value="Logout">
+</form>
+<div th:if="${locations != null && !#lists.isEmpty(locations)}">
+    <h2>Локации:</h2>
+    <div th:each="location : ${locations}">
+        <div class="location-card">
+            <h3 th:text="|Название локации: ${location.name}|"></h3>
+            <p th:text="'Широта: '+${location.lat}"></p>
+            <p th:text="'Долгота: '+${location.lon}"></p>
+            <p th:text="'Страна: '+${location.country}"></p>
+            <form method="post" th:action="@{/getLocations}">
+                <input type="hidden" th:name="'name'" th:value="${location.name}"/>
+                <input type="hidden" th:name="'lat'" th:value="${location.lat}"/>
+                <input type="hidden" th:name="'lon'" th:value="${location.lon}"/>
+
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:if="${locations == null || #lists.isEmpty(locations)}">
+    <p>Локации не найдены.</p>
+</div>
+
+
+</body>
+</html>
