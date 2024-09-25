@@ -30,6 +30,8 @@ public class TestDataBaseRunner {
         List<User> listU = userDAO.findAll();
         for (User user : listU) {
             System.out.println(user);
+            var list = user.getLocations();
+            System.out.println(list.toString());
         }
     }
 
@@ -41,17 +43,6 @@ public class TestDataBaseRunner {
         }
     }
 
-//    @Test
-//    public void testLocationsDAO(){
-//        Location location = Location.builder()
-//                .name("Minsk")
-//                .lon(15.688)
-//                .lat(203.686)
-//                .user(userDAO.findById(3L).get())
-//                .build();
-//        System.out.println(locationsDAO.save(location));
-//        System.out.println(locationsDAO.findById(1L));
-//        locationsDAO.delete(1L);
-//    }
+
 }
 

@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Builder
+
 @Table(name = "Locations")
 public class Location {
     @Id

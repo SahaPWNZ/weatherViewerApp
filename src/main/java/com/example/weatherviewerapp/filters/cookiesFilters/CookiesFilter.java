@@ -1,4 +1,4 @@
-package com.example.weatherviewerapp.filters;
+package com.example.weatherviewerapp.filters.cookiesFilters;
 
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
@@ -22,7 +22,7 @@ import java.io.IOException;
 
 
 @Slf4j
-@WebFilter(urlPatterns = {"/main.html", "/", "/sign-in.html", "/sign-on.html"})
+@WebFilter(urlPatterns = {"/main.html",})
 public class CookiesFilter extends HttpFilter {
     private final OpenWeatherService openWeatherService = new OpenWeatherService();
     private final CookieService cookieService = new CookieService();
@@ -37,7 +37,6 @@ public class CookiesFilter extends HttpFilter {
 
         WebContext context = new WebContext(webExchange);
 
-
         log.info(req.getRequestURI());
         String path = req.getRequestURI();
         Cookie cookie = cookieService.getCookie(req);
@@ -49,7 +48,6 @@ public class CookiesFilter extends HttpFilter {
 
                 log.info(String.valueOf(cookieService.getUserIdForCookie(cookie).getId()));
                 var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
-
                 context.setVariable("weatherCards", weatherCards);
                 templateEngine.process("main.html", context, res.getWriter());
 
@@ -60,31 +58,6 @@ public class CookiesFilter extends HttpFilter {
             } else {
                 log.info("куки равны нал, или их нет в бд, перенаправляю на sign-in");
                 res.sendRedirect("/sign-in.html");
-            }
-        } else if (path.equals("/")) {
-            log.info("Запуск фильтра Куки для /");
-            if (cookie != null && cookieService.isCookieInDB(cookie)) {
-                log.info("Куки есть - обновляю время жизни куки");
-                cookieService.updateUserSession(cookie);
-                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-                res.setHeader("Pragma", "no-cache");
-                res.setDateHeader("Expires", 0);
-                res.sendRedirect("main.html");
-            } else {
-                log.info("куки равны нал, или их нет в бд, перенаправляю на sign-in");
-                res.sendRedirect("/sign-in.html");
-            }
-        } else if (path.equals("/sign-in.html") || path.equals("/sign-on.html")) {
-            log.info("Запуск фильтра Куки для /sign-in or /sign-on");
-            if (cookie != null && cookieService.isCookieInDB(cookie)) {
-                log.info("Куки есть - ПЕРЕКИДЫВАЮ на main.html");
-                res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-                res.setHeader("Pragma", "no-cache");
-                res.setDateHeader("Expires", 0);
-                res.sendRedirect("main.html");
-            } else {
-                log.info("Нужных куки нет или они равны налл");
-                chain.doFilter(req, res);
             }
         }
 

@@ -33,7 +33,6 @@ public class ThymeleafConfiguration implements ServletContextListener {
 
     private WebApplicationTemplateResolver templateResolver(IWebApplication application) {
         WebApplicationTemplateResolver templateResolver = new WebApplicationTemplateResolver(application);
-
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setPrefix("/");
@@ -41,5 +40,6 @@ public class ThymeleafConfiguration implements ServletContextListener {
         templateResolver.setCacheable(false);
         return templateResolver;
     }
+
 
 }

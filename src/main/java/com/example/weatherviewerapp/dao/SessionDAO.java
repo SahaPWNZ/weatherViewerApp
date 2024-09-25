@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public class SessionDAO extends BaseDAO<UserSession, String>{
+public class SessionDAO extends BaseDAO<UserSession, String> {
 
     public List<UserSession> findAll() {
         try (Session session = sessionFactory.openSession()) {
@@ -47,15 +47,22 @@ public class SessionDAO extends BaseDAO<UserSession, String>{
 
 
     public void delete(String id) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+
+            transaction = session.beginTransaction();
 
             UserSession userSession = session.get(UserSession.class, id);
             if (userSession != null) {
                 session.remove(userSession);
             }
-            session.getTransaction().commit();
-            System.out.println("удалена сессия с кодом:"+" "+id);
+            transaction.commit();
+            System.out.println("удалена сессия с кодом:" + " " + id);
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
         }
     }
 
