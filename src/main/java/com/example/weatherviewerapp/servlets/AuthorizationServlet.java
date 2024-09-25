@@ -65,10 +65,10 @@ public class AuthorizationServlet extends HttpServlet {
 //            resp.setHeader("Pragma", "no-cache");
 //            resp.setDateHeader("Expires", 0);
 
-            var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
-            context.setVariable("weatherCards", weatherCards);
-            templateEngine.process("main.html", context, resp.getWriter());
-//            resp.sendRedirect("main.html");
+//            var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
+//            context.setVariable("weatherCards", weatherCards);
+//            templateEngine.process("main.html", context, resp.getWriter());
+            resp.sendRedirect("/home");
         }
 
     }

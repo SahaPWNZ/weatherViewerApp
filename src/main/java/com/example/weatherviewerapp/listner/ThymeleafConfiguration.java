@@ -28,6 +28,8 @@ public class ThymeleafConfiguration implements ServletContextListener {
         WebApplicationTemplateResolver templateResolver = templateResolver(application);
         templateEngine.setTemplateResolver(templateResolver);
 
+        WebApplicationTemplateResolver templateResolver1 = templateResolverClose(application);
+        templateEngine.setTemplateResolver(templateResolver1);
         return templateEngine;
     }
 
@@ -36,6 +38,16 @@ public class ThymeleafConfiguration implements ServletContextListener {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setPrefix("/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setCacheable(false);
+        return templateResolver;
+    }
+
+    private WebApplicationTemplateResolver templateResolverClose(IWebApplication application) {
+        WebApplicationTemplateResolver templateResolver = new WebApplicationTemplateResolver(application);
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setPrefix("/WEB-INF/");
         templateResolver.setSuffix(".html");
         templateResolver.setCacheable(false);
         return templateResolver;

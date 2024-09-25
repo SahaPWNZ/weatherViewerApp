@@ -16,6 +16,6 @@ public class StartFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         log.info("Работает StartFilter");
-        res.sendRedirect("main.html");
+        res.sendRedirect("/home");
     }
 }

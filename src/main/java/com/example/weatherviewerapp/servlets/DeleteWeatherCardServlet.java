@@ -15,6 +15,6 @@ private final LocationsDAO locationsDAO = new LocationsDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         locationsDAO.delete(Long.valueOf(req.getParameter("locationId")));
-        resp.sendRedirect("main.html");
+        resp.sendRedirect("/home");
     }
 }

@@ -56,7 +56,7 @@ public class LocationServlet extends HttpServlet {
                     .name(req.getParameter("name"))
                     .build();
             openWeatherService.addLocationToUser(cookieService.getUserIdForCookie(cookie), location);
-            resp.sendRedirect("/main.html");
+            resp.sendRedirect("/home");
         }
     }
 }
