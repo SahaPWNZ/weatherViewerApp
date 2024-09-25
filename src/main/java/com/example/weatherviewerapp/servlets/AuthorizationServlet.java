@@ -33,6 +33,10 @@ public class AuthorizationServlet extends HttpServlet {
     private final AuthorizationService authorizationService = new AuthorizationService();
     private final CookieService cookieService = new CookieService();
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/sign-in.html").forward(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,13 +65,6 @@ public class AuthorizationServlet extends HttpServlet {
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
 
             resp.addCookie(cookie);
-//            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-//            resp.setHeader("Pragma", "no-cache");
-//            resp.setDateHeader("Expires", 0);
-
-//            var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
-//            context.setVariable("weatherCards", weatherCards);
-//            templateEngine.process("main.html", context, resp.getWriter());
             resp.sendRedirect("/home");
         }
 

@@ -24,26 +24,12 @@ public class ThymeleafConfiguration implements ServletContextListener {
 
     private ITemplateEngine templateEngine(IWebApplication application) {
         TemplateEngine templateEngine = new TemplateEngine();
-
-        WebApplicationTemplateResolver templateResolver = templateResolver(application);
-        templateEngine.setTemplateResolver(templateResolver);
-
-        WebApplicationTemplateResolver templateResolver1 = templateResolverClose(application);
-        templateEngine.setTemplateResolver(templateResolver1);
+        templateEngine.setTemplateResolver(templateResolver(application));
         return templateEngine;
     }
 
-    private WebApplicationTemplateResolver templateResolver(IWebApplication application) {
-        WebApplicationTemplateResolver templateResolver = new WebApplicationTemplateResolver(application);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setPrefix("/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }
 
-    private WebApplicationTemplateResolver templateResolverClose(IWebApplication application) {
+    private WebApplicationTemplateResolver templateResolver(IWebApplication application) {
         WebApplicationTemplateResolver templateResolver = new WebApplicationTemplateResolver(application);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");

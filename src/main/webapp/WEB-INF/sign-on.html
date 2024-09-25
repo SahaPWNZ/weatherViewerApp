@@ -2,24 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Авторизация</title>
+    <title>Регистрация</title>
 </head>
 <body>
-<h1>Sign-in</h1>
-
+<h1>Sign-on</h1>
 <div th:if="${error.length()!=null}" style="color: red;" class="error-message">
     <p th:text="${error}"></p>
 </div>
-
-
-<form action="/sign-in" method="post">
+<form action="registration" method="post">
     <label for="login">Логин:</label>
     <input type="text" id="login" name="login" required><br><br>
     <label for="password">Пароль:</label>
     <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" value="Войти">
+    <label for="confirm_password">Подтвердите пароль:</label>
+    <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+    <input type="submit" value="Регистрация">
+    <a href="/sign-in">Авторизация<br></a>
 </form>
-<a href="sign-on.html">Регистрация<br></a>
 
 </body>
 </html>

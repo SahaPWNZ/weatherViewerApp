@@ -18,12 +18,12 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet("/registration")
+@WebServlet("/sign-on")
 public class RegistrationServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        req.getRequestDispatcher("/WEB-INF/sign-on.html").forward(req, resp);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RegistrationServlet extends HttpServlet {
 
             User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);
             userDAO.save(user); // обработки ошибок (на повторение логина, проблемы с бд)
-            resp.sendRedirect("main.html");
+            resp.sendRedirect("/sign-in");
         }
     }
 }

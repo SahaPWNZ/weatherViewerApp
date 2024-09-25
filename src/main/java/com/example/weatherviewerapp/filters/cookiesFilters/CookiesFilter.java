@@ -36,7 +36,7 @@ public class CookiesFilter extends HttpFilter {
             res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             res.setHeader("Pragma", "no-cache");
             res.setDateHeader("Expires", 0);
-            res.sendRedirect("/sign-in.html");
+            res.sendRedirect("/sign-in");
         } else {
             if (path.equals("/home")) {
                 log.info("Запуск фильтра Куки для /home");

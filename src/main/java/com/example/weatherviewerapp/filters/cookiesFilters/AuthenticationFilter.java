@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = {"/sign-in.html", "/sign-on.html"})
+@WebFilter(urlPatterns = {"/sign-in", "/sign-on"})
 public class AuthenticationFilter extends HttpFilter {
 
     private final CookieService cookieService = new CookieService();
