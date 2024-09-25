@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherResponseDTO {
@@ -11,7 +13,7 @@ public class WeatherResponseDTO {
     private WeatherMainDto main;
 
     @JsonProperty("weather")
-    private WeatherDto[] weather;
+    private List<WeatherDto> weather;
 
     @JsonProperty("wind")
     private WindDto wind;

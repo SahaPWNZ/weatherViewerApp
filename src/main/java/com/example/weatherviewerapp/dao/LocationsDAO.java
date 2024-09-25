@@ -59,11 +59,5 @@ public class LocationsDAO extends BaseDAO<Location, Long> {
          return session.createQuery("Select l From Location l Where l.user.id = :id", Location.class).setParameter("id", id).list();
         }
     }
-    public void deleteByLatLon(double lat, double lon){
-        try(Session session = sessionFactory.openSession()){
-
-        }
-    }
-
 
 }

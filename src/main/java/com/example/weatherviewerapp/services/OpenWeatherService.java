@@ -81,7 +81,7 @@ public class OpenWeatherService {
                     .locationId(id)
                     .temp(weatherResponseDTO.getMain().getTemp())
                     .feelsLike(weatherResponseDTO.getMain().getFeelsLike())
-                    .description(weatherResponseDTO.getWeather()[0].getDescription())
+                    .description(weatherResponseDTO.getWeather().get(0).getDescription())
                     .nameLocation(weatherResponseDTO.getName())
                     .country(weatherResponseDTO.getSys().getCountry())
                     .build();

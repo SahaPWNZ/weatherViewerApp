@@ -7,8 +7,7 @@ import com.example.weatherviewerapp.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 
-import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_GREEN;
-import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
+
 
 @Slf4j
 public class AuthorizationService {
@@ -18,16 +17,16 @@ public class AuthorizationService {
     public UserResponseDTO getUserDTO(UserRequestDTO userRequestDTO) {
         User user = userDAO.findByLogin(userRequestDTO.getLogin()).orElse(null);
         if (user != null) {
-            log.info(ANSI_GREEN + "Юзер с таким логином найден: " +userRequestDTO.getLogin() + ANSI_RESET);
+            log.info("Юзер с таким логином найден: " +userRequestDTO.getLogin());
             if(BCrypt.checkpw(userRequestDTO.getPassword(), user.getPassword())){
                 return new UserResponseDTO(user.getId());
             }
             else{
-                log.info(ANSI_GREEN + "Пароли не совпали" + ANSI_RESET);
+                log.info("Пароли не совпали");
                 return null;
             }
         } else {
-            log.info(ANSI_GREEN + "Юзера с такими данными нет" + ANSI_RESET);
+            log.info("Юзера с такими данными нет");
             return null;
         }
 

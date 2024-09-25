@@ -23,8 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_GREEN;
-import static com.example.weatherviewerapp.filters.CookiesFilter.ANSI_RESET;
+
 
 
 @WebServlet("/sign-in")
@@ -58,7 +57,7 @@ public class AuthorizationServlet extends HttpServlet {
             templateEngine.process("sign-in.html", context, resp.getWriter());
 
         } else {
-            log(ANSI_GREEN + "Успешная авторизация, создание Куки" + ANSI_RESET);
+            log("Успешная авторизация, создание Куки");
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
 
             resp.addCookie(cookie);

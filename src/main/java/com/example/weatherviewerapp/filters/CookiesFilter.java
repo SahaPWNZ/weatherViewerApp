@@ -19,15 +19,13 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
-import java.util.List;
+
 
 @Slf4j
 @WebFilter(urlPatterns = {"/main.html", "/", "/sign-in.html", "/sign-on.html"})
 public class CookiesFilter extends HttpFilter {
     private final OpenWeatherService openWeatherService = new OpenWeatherService();
     private final CookieService cookieService = new CookieService();
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN = "\u001B[32m";
 
 
     @Override
@@ -44,9 +42,9 @@ public class CookiesFilter extends HttpFilter {
         String path = req.getRequestURI();
         Cookie cookie = cookieService.getCookie(req);
         if (path.equals("/main.html")) {
-            log.info(ANSI_GREEN + "Запуск фильтра Куки для /main.html" + ANSI_RESET);
+            log.info("Запуск фильтра Куки для /main.html");
             if (cookie != null && cookieService.isCookieInDB(cookie)) {
-                log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
+                log.info("Куки есть - обновляю время жизни куки");
                 cookieService.updateUserSession(cookie);
 
                 log.info(String.valueOf(cookieService.getUserIdForCookie(cookie).getId()));
@@ -64,9 +62,9 @@ public class CookiesFilter extends HttpFilter {
                 res.sendRedirect("/sign-in.html");
             }
         } else if (path.equals("/")) {
-            log.info(ANSI_GREEN + "Запуск фильтра Куки для /" + ANSI_RESET);
+            log.info("Запуск фильтра Куки для /");
             if (cookie != null && cookieService.isCookieInDB(cookie)) {
-                log.info(ANSI_GREEN + "Куки есть - обновляю время жизни куки" + ANSI_RESET);
+                log.info("Куки есть - обновляю время жизни куки");
                 cookieService.updateUserSession(cookie);
                 res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                 res.setHeader("Pragma", "no-cache");
@@ -77,7 +75,7 @@ public class CookiesFilter extends HttpFilter {
                 res.sendRedirect("/sign-in.html");
             }
         } else if (path.equals("/sign-in.html") || path.equals("/sign-on.html")) {
-            log.info(ANSI_GREEN + "Запуск фильтра Куки для /sign-in or /sign-on" + ANSI_RESET);
+            log.info("Запуск фильтра Куки для /sign-in or /sign-on");
             if (cookie != null && cookieService.isCookieInDB(cookie)) {
                 log.info("Куки есть - ПЕРЕКИДЫВАЮ на main.html");
                 res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
