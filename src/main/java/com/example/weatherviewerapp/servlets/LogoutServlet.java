@@ -15,7 +15,8 @@ public class LogoutServlet extends HttpServlet {
     private final CookieService cookieService= new CookieService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cookie cookie = cookieService.getCookie(req);
+
+        Cookie cookie = cookieService.getSessionCookie(req);
         if(cookie!=null){
 
             cookieService.deliteCookie(cookie);

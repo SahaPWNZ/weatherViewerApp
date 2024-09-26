@@ -17,6 +17,7 @@ public class AuthorizationService {
     public UserResponseDTO getUserDTO(UserRequestDTO userRequestDTO) {
         User user = userDAO.findByLogin(userRequestDTO.getLogin()).orElse(null);
         if (user != null) {
+
             log.info("Юзер с таким логином найден: " +userRequestDTO.getLogin());
             if(BCrypt.checkpw(userRequestDTO.getPassword(), user.getPassword())){
                 return new UserResponseDTO(user.getId());

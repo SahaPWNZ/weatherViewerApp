@@ -1,10 +1,6 @@
 package com.example.weatherviewerapp.filters.cookiesFilters;
 
-import com.example.weatherviewerapp.dto.UserRequestDTO;
-import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
-import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
-import com.example.weatherviewerapp.services.OpenWeatherService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -13,10 +9,6 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-import org.thymeleaf.web.IWebExchange;
-import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
@@ -30,7 +22,7 @@ public class CookiesFilter extends HttpFilter {
     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         String path = req.getRequestURI();
-        Cookie cookie = cookieService.getCookie(req);
+        Cookie cookie = cookieService.getSessionCookie(req);
 
         if (cookie== null ||!cookieService.isCookieInDB(cookie)) {
             res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

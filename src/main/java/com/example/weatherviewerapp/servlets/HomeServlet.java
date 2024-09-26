@@ -22,13 +22,15 @@ public class HomeServlet extends HttpServlet {
     private final CookieService cookieService = new CookieService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                 ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-        Cookie cookie = cookieService.getCookie(req);
+        Cookie cookie = cookieService.getSessionCookie(req);
+
         var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
         context.setVariable("weatherCards", weatherCards);
         templateEngine.process("main.html", context, resp.getWriter());

@@ -30,14 +30,17 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pass = req.getParameter("password");
         String confirmPass = req.getParameter("confirm_password");
+
         if(!pass.equals(confirmPass)){
             TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                     ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
             IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                     .buildExchange(req, resp);
+
             WebContext context = new WebContext(webExchange);
             context.setVariable("error", "Пароли не одинаковые!");
             templateEngine.process("sign-on.html", context, resp.getWriter());
+
         }
         else {
             UserRequestDTO userRequestDTO = UserRequestDTO.builder()
@@ -48,6 +51,7 @@ public class RegistrationServlet extends HttpServlet {
             User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);
             userDAO.save(user); // обработки ошибок (на повторение логина, проблемы с бд)
             resp.sendRedirect("/sign-in");
+
         }
     }
 }

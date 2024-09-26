@@ -11,9 +11,12 @@ import java.io.IOException;
 
 @WebServlet("/deleteWeatherCard")
 public class DeleteWeatherCardServlet extends HttpServlet {
+
 private final LocationsDAO locationsDAO = new LocationsDAO();
-    @Override
+
+@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         locationsDAO.delete(Long.valueOf(req.getParameter("locationId")));
         resp.sendRedirect("/home");
     }

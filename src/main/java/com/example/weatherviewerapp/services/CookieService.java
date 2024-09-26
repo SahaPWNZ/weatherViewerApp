@@ -8,7 +8,6 @@ import com.example.weatherviewerapp.entity.UserSession;
 import com.example.weatherviewerapp.utils.MappingUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -18,9 +17,8 @@ public class CookieService {
     private static final SessionDAO sessionDAO = new SessionDAO();
     private static final int COOKIE_LIFETIME_EXT = 1800000;
 
-    public Cookie getCookie(HttpServletRequest request) {
+    public Cookie getSessionCookie(HttpServletRequest request) {
         if (request.getCookies() == null) {
-            System.out.println("null");
             return null;
 
         } else {

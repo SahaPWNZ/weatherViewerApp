@@ -21,7 +21,7 @@ public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         log.info("Запуск фильтра Куки для /sign-in or /sign-on");
-        Cookie cookie = cookieService.getCookie(req);
+        Cookie cookie = cookieService.getSessionCookie(req);
 
         if (cookie != null && cookieService.isCookieInDB(cookie)) {
             log.info("Куки в бд - редирект на main.html");
