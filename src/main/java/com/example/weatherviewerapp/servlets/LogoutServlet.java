@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
         Cookie cookie = cookieService.getSessionCookie(req);
         if(cookie!=null){
 
-            cookieService.deliteCookie(cookie);
+            cookieService.deliteCookieSession(cookie);
             cookie.setMaxAge(0);
             resp.addCookie(cookie);
         }

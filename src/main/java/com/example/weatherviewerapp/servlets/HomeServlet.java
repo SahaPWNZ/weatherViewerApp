@@ -30,8 +30,8 @@ public class HomeServlet extends HttpServlet {
         WebContext context = new WebContext(webExchange);
 
         Cookie cookie = cookieService.getSessionCookie(req);
+        var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserForCookie(cookie).getId());
 
-        var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserIdForCookie(cookie).getId());
         context.setVariable("weatherCards", weatherCards);
         templateEngine.process("main.html", context, resp.getWriter());
     }

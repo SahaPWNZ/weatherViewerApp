@@ -22,18 +22,17 @@ import java.util.List;
 
 @Slf4j
 public class OpenWeatherService {
-    private static final String BASE_URL = "https://api.openweathermap.org/";
-    private static final String GEO_URL = "geo/1.0/direct?";
-    private static final String DATA_URL = "data/2.5/weather?";
-    private static final HttpClient httpClient = HttpClient.newHttpClient();
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final LocationsDAO locationsDAO = new LocationsDAO();
+    private final String BASE_URL = "https://api.openweathermap.org/";
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final LocationsDAO locationsDAO = new LocationsDAO();
 
     public List<LocationResponseDTO> getLocationsHttpMethod(String city) {
         if (city.contains(" ")) {
             city = city.replaceAll(" ", "%20");
         }
         try {
+            String GEO_URL = "geo/1.0/direct?";
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(BASE_URL
                             + GEO_URL
@@ -42,30 +41,37 @@ public class OpenWeatherService {
                             + "&appid=" + ConfigUtil.getApiKey()))
                     .GET()
                     .build();
+
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info(String.valueOf(response.statusCode()));
-            return objectMapper.readValue(response.body(), new TypeReference<List<LocationResponseDTO>>() {
+            log.info("Status code of response: " + response.statusCode());
+            return objectMapper.readValue(response.body(), new TypeReference<>() {
             });
         } catch (InterruptedException | URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon) throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(
-                        BASE_URL
-                                + DATA_URL
-                                + "lat=" + lat
-                                + "&lon=" + lon
-                                + "&units=metric"
-                                + "&appid=" + ConfigUtil.getApiKey()))
-                .GET()
-                .build();
+    private WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon){
+        String DATA_URL = "data/2.5/weather?";
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(
+                            BASE_URL
+                                    + DATA_URL
+                                    + "lat=" + lat
+                                    + "&lon=" + lon
+                                    + "&units=metric"
+                                    + "&appid=" + ConfigUtil.getApiKey()))
+                    .GET()
+                    .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        log.info(String.valueOf(response.statusCode()));
-        return objectMapper.readValue(response.body(), WeatherResponseDTO.class);
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            log.info("Status code of response: " + response.statusCode());
+            return objectMapper.readValue(response.body(), WeatherResponseDTO.class);
+        }
+        catch (InterruptedException | URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addLocationToUser(User user, Location locationResponseDTO) {
@@ -74,20 +80,16 @@ public class OpenWeatherService {
     }
 
     public WeatherCardDTO getWeatherForLocation(double lat, double lon, Long id) {
-        try {
-            var weatherResponseDTO = getWeatherForCoordinatesHttpMethod(lat, lon);
+        var weatherResponseDTO = getWeatherForCoordinatesHttpMethod(lat, lon);
 
-            return WeatherCardDTO.builder()
-                    .locationId(id)
-                    .temp(weatherResponseDTO.getMain().getTemp())
-                    .feelsLike(weatherResponseDTO.getMain().getFeelsLike())
-                    .description(weatherResponseDTO.getWeather().get(0).getDescription())
-                    .nameLocation(weatherResponseDTO.getName())
-                    .country(weatherResponseDTO.getSys().getCountry())
-                    .build();
-        } catch (InterruptedException | URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        return WeatherCardDTO.builder()
+                .locationId(id)
+                .temp(weatherResponseDTO.getMain().getTemp())
+                .feelsLike(weatherResponseDTO.getMain().getFeelsLike())
+                .description(weatherResponseDTO.getWeather().get(0).getDescription())
+                .nameLocation(weatherResponseDTO.getName())
+                .country(weatherResponseDTO.getSys().getCountry())
+                .build();
     }
 
     public List<WeatherCardDTO> findAllWeatherCards(Long id) {

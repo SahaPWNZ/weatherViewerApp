@@ -18,25 +18,18 @@ public class CookieService {
     private static final int COOKIE_LIFETIME_EXT = 1800000;
 
     public Cookie getSessionCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) {
-            return null;
+        return Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("sessionId"))
+                .findFirst()
+                .orElse(null);
 
-        } else {
-            for (Cookie cookie : request.getCookies()) {
-                System.out.println(cookie.getName() + "   " + cookie.getValue());
-            }
-            return Arrays.stream(request.getCookies())
-                    .filter(cookie -> cookie.getName().equals("sessionId"))
-                    .findFirst()
-                    .orElse(null);
-        }
     }
 
     public boolean isCookieInDB(Cookie cookie) {
         return sessionDAO.findById(cookie.getValue()).isPresent();
     }
 
-    public User getUserIdForCookie(Cookie cookie) {
+    public User getUserForCookie(Cookie cookie) {
         return sessionDAO.findById(cookie.getValue()).get().getUser();
     }
 
@@ -46,7 +39,7 @@ public class CookieService {
         sessionDAO.save(userSession);
     }
 
-    public void deliteCookie(Cookie cookie) {
+    public void deliteCookieSession(Cookie cookie) {
         sessionDAO.delete(cookie.getValue());
     }
 
@@ -61,8 +54,9 @@ public class CookieService {
         UserSessionDTO userSessionDTO = UserSessionDTO.builder()
                 .GUID(UUID.randomUUID().toString())
                 .userId(id)
-                .timestamp(new Timestamp(System.currentTimeMillis() + 1800000)) //текущая дата + час (3600000
+                .timestamp(new Timestamp(System.currentTimeMillis() + COOKIE_LIFETIME_EXT))
                 .build();
+
         return sessionDAO.save(MappingUtils.toUserSessionFromDTO(userSessionDTO));
     }
 

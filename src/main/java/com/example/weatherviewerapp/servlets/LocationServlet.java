@@ -52,7 +52,7 @@ public class LocationServlet extends HttpServlet {
                     .name(req.getParameter("name"))
                     .build();
 
-            openWeatherService.addLocationToUser(cookieService.getUserIdForCookie(cookie), location);
+            openWeatherService.addLocationToUser(cookieService.getUserForCookie(cookie), location);
             resp.sendRedirect("/home");
         }
     }
