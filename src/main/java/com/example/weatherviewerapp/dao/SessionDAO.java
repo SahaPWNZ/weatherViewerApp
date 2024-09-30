@@ -1,10 +1,7 @@
 package com.example.weatherviewerapp.dao;
 
 
-import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
-import com.example.weatherviewerapp.utils.HibernateUtil;
-import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class SessionDAO extends BaseDAO<UserSession, String> {
+    public SessionDAO() {
+        super();
+    }
+
+    public SessionDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
 
     public List<UserSession> findAll() {
         try (Session session = sessionFactory.openSession()) {

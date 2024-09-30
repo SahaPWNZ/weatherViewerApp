@@ -3,12 +3,21 @@ package com.example.weatherviewerapp.dao;
 import com.example.weatherviewerapp.entity.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 import java.util.Optional;
 
 public class UserDAO extends BaseDAO<User, Long> {
+    public UserDAO() {
+        super();
+    }
+
+    public UserDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
+
     @Override
     public List<User> findAll() {
         try (Session session = sessionFactory.openSession()) {

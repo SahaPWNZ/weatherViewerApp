@@ -3,6 +3,7 @@ package com.example.weatherviewerapp.dao;
 import com.example.weatherviewerapp.entity.Location;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
@@ -10,6 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class LocationsDAO extends BaseDAO<Location, Long> {
+    public LocationsDAO() {
+        super();
+    }
+
+    public LocationsDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
+
     @Override
     public List<Location> findAll() {
         try (Session session = sessionFactory.openSession()) {

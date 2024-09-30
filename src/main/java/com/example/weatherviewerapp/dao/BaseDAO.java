@@ -13,7 +13,6 @@ public abstract class BaseDAO<T, ID> {
     public BaseDAO() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
-    //TODO
     public BaseDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
