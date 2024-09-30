@@ -4,9 +4,11 @@ import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.exception.AuthenticatonException;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.Optional;
 
 
 @Slf4j
@@ -15,20 +17,17 @@ public class AuthorizationService {
 
 
     public UserResponseDTO getUserDTO(UserRequestDTO userRequestDTO) {
-        User user = userDAO.findByLogin(userRequestDTO.getLogin()).orElse(null);
-        if (user != null) {
-
-            log.info("Юзер с таким логином найден: " +userRequestDTO.getLogin());
-            if(BCrypt.checkpw(userRequestDTO.getPassword(), user.getPassword())){
-                return new UserResponseDTO(user.getId());
+        Optional<User> user = userDAO.findByLogin(userRequestDTO.getLogin());
+        if (user.isPresent()) {
+            log.info("A user with this login was found:" +userRequestDTO.getLogin());
+            if(BCrypt.checkpw(userRequestDTO.getPassword(), user.get().getPassword())){
+                return new UserResponseDTO(user.get().getId());
             }
             else{
-                log.info("Пароли не совпали");
-                return null;
+                throw new AuthenticatonException("Invalid login or password");
             }
         } else {
-            log.info("Юзера с такими данными нет");
-            return null;
+            throw new AuthenticatonException("Invalid login or password");
         }
 
     }

@@ -1,6 +1,5 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
@@ -13,19 +12,15 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-
-
-
+@Slf4j
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
 
@@ -35,6 +30,9 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        resp.setHeader("Pragma", "no-cache");
+        resp.setDateHeader("Expires", 0);
         req.getRequestDispatcher("/WEB-INF/sign-in.html").forward(req, resp);
     }
 
@@ -52,22 +50,17 @@ public class AuthorizationServlet extends HttpServlet {
                 .password(req.getParameter("password"))
                 .build();
 
-
-        UserResponseDTO userResponseDTO = authorizationService.getUserDTO(userRequestDTO);
-
-        if (userResponseDTO == null) {
-
-            context.setVariable("error", "Неправильный логин или пароль");
-            templateEngine.process("sign-in.html", context, resp.getWriter());
-
-        } else {
-            log("Успешная авторизация, создание Куки");
+        try {
+            UserResponseDTO userResponseDTO = authorizationService.getUserDTO(userRequestDTO);
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
-
             resp.addCookie(cookie);
             resp.sendRedirect("/home");
-        }
 
+        } catch (Exception e) {
+
+            context.setVariable("error", e.getMessage());
+            templateEngine.process("sign-in.html", context, resp.getWriter());
+        }
     }
 
 }

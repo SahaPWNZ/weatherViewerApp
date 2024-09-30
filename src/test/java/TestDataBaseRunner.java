@@ -38,20 +38,17 @@ public class TestDataBaseRunner {
     @Test
     void testAddNewUser() {
         User testUser = User.builder()
-                .login("saha07")
+                .login("saha")
                 .password(BCrypt.hashpw("2210", BCrypt.gensalt()))
                 .locations(new ArrayList<>())
                 .build();
         System.out.println(userDAO.save(testUser));
     }
 
-    @Order(3)
+
     @Test
-    void testPrintAllUsers() {
-        List<User> listUsers = userDAO.findAll();
-        for (User user : listUsers) {
-            System.out.println(user);
-        }
+    void testAuthorizationServiceWithUser(){
+
     }
 
 //    @Test

@@ -1,10 +1,12 @@
 package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.exception.RegistrationException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,17 +37,14 @@ public class UserDAO extends BaseDAO<User, Long> {
 
     @Override
     public User save(User entity) {
-        Transaction transaction = null;
+
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.persist(entity);
-            transaction.commit();
+            session.getTransaction().commit();
             return entity;
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new RegistrationException("There is already a user with this login");
         }
 
     }
