@@ -1,7 +1,9 @@
 package com.example.weatherviewerapp.servlets;
 
+import com.example.weatherviewerapp.dao.LocationsDAO;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.services.LocationsService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +20,7 @@ import java.io.IOException;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
-    private final OpenWeatherService openWeatherService = new OpenWeatherService();
+    private final LocationsService locationsService = new LocationsService(new LocationsDAO());
     private final CookieService cookieService = new CookieService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +32,7 @@ public class HomeServlet extends HttpServlet {
         WebContext context = new WebContext(webExchange);
 
         Cookie cookie = cookieService.getSessionCookie(req);
-        var weatherCards = openWeatherService.findAllWeatherCards(cookieService.getUserForCookie(cookie).getId());
+        var weatherCards = locationsService.findAllWeatherCards(cookieService.getUserForCookie(cookie).getId());
 
         context.setVariable("weatherCards", weatherCards);
         templateEngine.process("main.html", context, resp.getWriter());

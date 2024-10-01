@@ -1,7 +1,8 @@
 package com.example.weatherviewerapp.utils;
 
 
-import com.example.weatherviewerapp.services.DataBaseCleanupTusk;
+import com.example.weatherviewerapp.dao.SessionDAO;
+import com.example.weatherviewerapp.services.SessionsCleanupTusk;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -11,7 +12,7 @@ public class Scheduler {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void startCleanUpTusk(){
-        scheduler.scheduleAtFixedRate(new DataBaseCleanupTusk(), 0, 3, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(new SessionsCleanupTusk(new SessionDAO()), 0, 3, TimeUnit.MINUTES);
     }
     public void stopCleanupTask() {
         scheduler.shutdown();

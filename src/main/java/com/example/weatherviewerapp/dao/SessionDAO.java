@@ -61,7 +61,6 @@ public class SessionDAO extends BaseDAO<UserSession, String> {
                 session.remove(userSession);
             }
             transaction.commit();
-            System.out.println("удалена сессия с кодом:" + " " + id);
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();

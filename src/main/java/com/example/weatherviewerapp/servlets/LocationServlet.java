@@ -1,8 +1,10 @@
 package com.example.weatherviewerapp.servlets;
 
+import com.example.weatherviewerapp.dao.LocationsDAO;
 import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.services.LocationsService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -23,6 +25,7 @@ public class LocationServlet extends HttpServlet {
 
     private final CookieService cookieService = new CookieService();
     private final OpenWeatherService openWeatherService = new OpenWeatherService();
+    private final LocationsService locationsService = new LocationsService(new LocationsDAO());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -52,7 +55,7 @@ public class LocationServlet extends HttpServlet {
                     .name(req.getParameter("name"))
                     .build();
 
-            openWeatherService.addLocationToUser(cookieService.getUserForCookie(cookie), location);
+            locationsService.addLocationToUser(cookieService.getUserForCookie(cookie), location);
             resp.sendRedirect("/home");
         }
     }

@@ -39,7 +39,7 @@ public class CookieService {
         sessionDAO.save(userSession);
     }
 
-    public void deliteCookieSession(Cookie cookie) {
+    public void deleteCookieSession(Cookie cookie) {
         sessionDAO.delete(cookie.getValue());
     }
 

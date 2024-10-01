@@ -1,14 +1,13 @@
 package com.example.weatherviewerapp.services;
 
-import com.example.weatherviewerapp.dao.LocationsDAO;
-import com.example.weatherviewerapp.dto.WeatherCardDTO;
 import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
 import com.example.weatherviewerapp.dto.api.WeatherResponseDTO;
-import com.example.weatherviewerapp.entity.Location;
-import com.example.weatherviewerapp.entity.User;
+import com.example.weatherviewerapp.exception.InvalidStatusCodeException;
+import com.example.weatherviewerapp.exception.OpenWeatherApiException;
 import com.example.weatherviewerapp.utils.ConfigUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +23,6 @@ public class OpenWeatherService {
     private final String BASE_URL = "https://api.openweathermap.org/";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final LocationsDAO locationsDAO = new LocationsDAO();
 
     public OpenWeatherService(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
@@ -37,7 +34,7 @@ public class OpenWeatherService {
         this.objectMapper = new ObjectMapper();
     }
 
-    public List<LocationResponseDTO> getLocationsHttpMethod(String city) {
+    public List<LocationResponseDTO> getLocationsHttpMethod(String city) throws IOException {
         if (city.contains(" ")) {
             city = city.replaceAll(" ", "%20");
         }
@@ -52,16 +49,16 @@ public class OpenWeatherService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = getResponseIfValid(httpClient, request);
             log.info("Status code of response: " + response.statusCode());
             return objectMapper.readValue(response.body(), new TypeReference<>() {
             });
-        } catch (InterruptedException | URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException | MismatchedInputException | URISyntaxException e) {
+            throw new OpenWeatherApiException("Problem with OpenWeatherApi");
         }
     }
 
-    private WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon){
+    public WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon) throws IOException{
         String DATA_URL = "data/2.5/weather?";
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -75,39 +72,24 @@ public class OpenWeatherService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = getResponseIfValid(httpClient, request);
             log.info("Status code of response: " + response.statusCode());
             return objectMapper.readValue(response.body(), WeatherResponseDTO.class);
         }
-        catch (InterruptedException | URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
+        catch (InterruptedException | URISyntaxException | MismatchedInputException e) {
+            throw new OpenWeatherApiException("Problem with OpenWeatherApi");
         }
     }
 
-    public void addLocationToUser(User user, Location locationResponseDTO) {
-        locationResponseDTO.setUser(user);
-        locationsDAO.save(locationResponseDTO);
-    }
+    private HttpResponse<String> getResponseIfValid(HttpClient client, HttpRequest req) throws IOException, InterruptedException {
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-    public WeatherCardDTO getWeatherForLocation(double lat, double lon, Long id) {
-        var weatherResponseDTO = getWeatherForCoordinatesHttpMethod(lat, lon);
-
-        return WeatherCardDTO.builder()
-                .locationId(id)
-                .temp(weatherResponseDTO.getMain().getTemp())
-                .feelsLike(weatherResponseDTO.getMain().getFeelsLike())
-                .description(weatherResponseDTO.getWeather().get(0).getDescription())
-                .nameLocation(weatherResponseDTO.getName())
-                .country(weatherResponseDTO.getSys().getCountry())
-                .build();
-    }
-
-    public List<WeatherCardDTO> findAllWeatherCards(Long id) {
-        var ListLocations = locationsDAO.findAllbyUserId(id);
-        List<WeatherCardDTO> allWeatherCards = new ArrayList<>();
-        for (Location location : ListLocations) {
-            allWeatherCards.add(getWeatherForLocation(location.getLat(), location.getLon(), location.getId()));
+        int statusCode = res.statusCode();
+        if ((statusCode >= 500 && statusCode < 600) || (statusCode >= 400 && statusCode < 500)) {
+            throw new InvalidStatusCodeException("Incorrect response status from Api");
         }
-        return allWeatherCards;
+
+        return res;
     }
+
 }

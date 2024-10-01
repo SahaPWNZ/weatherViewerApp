@@ -2,7 +2,7 @@ import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
-import com.example.weatherviewerapp.exception.AuthenticatonException;
+import com.example.weatherviewerapp.exception.AuthenticationException;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class TestAuthorizationService {
     private AuthorizationService authorizationService;
     @Mock
     private UserDAO userDAO;
-private final static  UserRequestDTO testRequestDTO = new UserRequestDTO("testLogin", "Pass");
+    private final static UserRequestDTO testRequestDTO = new UserRequestDTO("testLogin", "Pass");
 
 
     @Test
@@ -34,12 +34,12 @@ private final static  UserRequestDTO testRequestDTO = new UserRequestDTO("testLo
 
         Mockito.when(userDAO.findByLogin("testLogin")).thenReturn(user);
 
-        Assertions.assertThrows(AuthenticatonException.class,
+        Assertions.assertThrows(AuthenticationException.class,
                 () -> authorizationService.getUserDtoIfExist(testRequestDTO));
     }
 
     @Test
-    void testAuthorizationServiceWithCorrectPass(){
+    void testAuthorizationServiceWithCorrectPass() {
         UserResponseDTO testResponseDTO = new UserResponseDTO(1L);
         Optional<User> user = Optional.of(new User(1L, "testLogin",
                 BCrypt.hashpw("Pass", BCrypt.gensalt()), new ArrayList<>()));
@@ -50,12 +50,12 @@ private final static  UserRequestDTO testRequestDTO = new UserRequestDTO("testLo
     }
 
     @Test
-    void testAuthorizationServiceWithEmptyUser(){
+    void testAuthorizationServiceWithEmptyUser() {
         Optional<User> user = Optional.empty();
 
         Mockito.when(userDAO.findByLogin("testLogin")).thenReturn(user);
 
-        Assertions.assertThrows(AuthenticatonException.class,
+        Assertions.assertThrows(AuthenticationException.class,
                 () -> authorizationService.getUserDtoIfExist(testRequestDTO));
     }
 }
