@@ -30,7 +30,7 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", locations=" + locations.size() +
+                ", locations=" + locations +
                 '}';
     }
 }

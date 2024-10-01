@@ -73,7 +73,7 @@ class TestOpenWeatherService {
     }
 
     @Test
-    void testGetGeoLocationInfoWithServerError() throws IOException, InterruptedException {
+    void testGetLocationHttpMethodWithServerError() throws IOException, InterruptedException {
         setUpMockHttpClient();
         when(mockHttpResponse.statusCode()).thenReturn(500);
 
@@ -81,7 +81,7 @@ class TestOpenWeatherService {
                 () -> weatherService.getLocationsHttpMethod("London"));
     }
     @Test
-    void testGetGeoLocationInfoWithClientError() throws IOException, InterruptedException {
+    void testGetLocationHttpMethodWithClientError() throws IOException, InterruptedException {
         setUpMockHttpClient();
         when(mockHttpResponse.statusCode()).thenReturn(404);
 
@@ -91,7 +91,7 @@ class TestOpenWeatherService {
 
 
     @Test
-    void testGetGeoLocationInfoWithInvalidResponseFormat() throws IOException, InterruptedException {
+    void testGetLocationHttpMethodWithInvalidResponseFormat() throws IOException, InterruptedException {
         String invalidResponse = "{\"invalid\":\"response\"}";
 
         setUpMockHttpClient();

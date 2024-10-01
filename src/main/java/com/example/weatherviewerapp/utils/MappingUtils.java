@@ -1,9 +1,8 @@
 package com.example.weatherviewerapp.utils;
 
 import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserSessionDTO;
-import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
-import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
 
@@ -14,6 +13,12 @@ public static UserSession toUserSessionFromDTO(UserSessionDTO userSessionDTO){
             .id(userSessionDTO.getGUID())
             .user(userDAO.findById(userSessionDTO.getUserId()).get())
             .timestamp(userSessionDTO.getTimestamp())
+            .build();
+}
+public static User toUserFromDTO(UserRequestDTO userDTO){
+    return User.builder()
+            .login(userDTO.getLogin())
+            .password(userDTO.getPassword())
             .build();
 }
 }

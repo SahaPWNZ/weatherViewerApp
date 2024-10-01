@@ -1,6 +1,7 @@
 package com.example.weatherviewerapp.dao;
 
 
+import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -34,38 +35,25 @@ public class SessionDAO extends BaseDAO<UserSession, String> {
 
 
     public UserSession save(UserSession entity) {
-        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.merge(entity);
-            transaction.commit();
+            session.getTransaction().commit();
             return entity;
-        } catch (
-                HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw e;
         }
     }
 
 
     public void delete(String id) {
-        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
 
-            transaction = session.beginTransaction();
+            session.beginTransaction();
 
             UserSession userSession = session.get(UserSession.class, id);
             if (userSession != null) {
                 session.remove(userSession);
             }
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw e;
+            session.getTransaction().commit();
         }
     }
 

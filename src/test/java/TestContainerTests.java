@@ -10,8 +10,9 @@ import util.HibernateTestUtil;
 
 import javax.naming.ldap.PagedResultsControl;
 import java.util.ArrayList;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 
@@ -19,47 +20,59 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TestContainerTests {
     private static final SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
     private static UserDAO userDAO;
-    private static SessionDAO sessionDAO;
 
     @BeforeAll
     static void getDao() {
         userDAO = new UserDAO(sessionFactory);
-        sessionDAO = new SessionDAO(sessionFactory);
+
     }
 
     @Nested
     @DisplayName("Tests connection to dataBase and userDAO")
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-    class TestsDataBase{
+    class TestsDataBase {
         @Order(1)
         @Test
         void testConnectionToContainerPostgres() {
 
             try (Session session = sessionFactory.openSession()) {
                 session.beginTransaction();
-                System.out.println("Транзакция успешно открыта");
+                log.info("Transaction is opened");
                 session.getTransaction().commit();
             }
         }
 
         @Order(2)
         @Test
-        void testAddNewUser() {
+        void testAddNewUsers() {
             User testUser = User.builder()
                     .login("saha")
                     .password(BCrypt.hashpw("2210", BCrypt.gensalt()))
+                    .build();
+            Assertions.assertInstanceOf(User.class, userDAO.save(testUser));
+
+            User testUser2 = User.builder()
+                    .login("testLogin")
+                    .password(BCrypt.hashpw("testPass", BCrypt.gensalt()))
                     .locations(new ArrayList<>())
                     .build();
-            System.out.println(userDAO.save(testUser));
+            Assertions.assertInstanceOf(User.class, userDAO.save(testUser2));
         }
 
+        @Order(3)
+        @Test
+        void testGetUserOnLogin() {
+            assertEquals(Optional.empty(), userDAO.findByLogin("InvalidLogin"));
+            assertEquals(2L, userDAO.findByLogin("testLogin").get().getId());
+        }
+
+        @Order(4)
+        @Test
+        void testDelete() {
+            userDAO.delete(1L);
+            assertEquals(Optional.empty(), userDAO.findById(1L));
+        }
     }
-
-
-
-
-
-
 
 
 }

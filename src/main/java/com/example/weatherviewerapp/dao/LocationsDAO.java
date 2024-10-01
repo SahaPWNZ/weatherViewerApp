@@ -1,12 +1,9 @@
 package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.Location;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,24 +25,18 @@ public class LocationsDAO extends BaseDAO<Location, Long> {
 
     @Override
     public Optional<Location> findById(Long id) {
-        try(Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(Location.class, id));
         }
     }
 
     @Override
     public Location save(Location entity) {
-        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.persist(entity);
-            transaction.commit();
+            session.getTransaction().commit();
             return entity;
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw e;
         }
     }
 
@@ -54,18 +45,18 @@ public class LocationsDAO extends BaseDAO<Location, Long> {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            Location match = session.get(Location.class, id);
-            if (match != null) {
-                session.remove(match);
+            Location location = session.get(Location.class, id);
+            if (location != null) {
+                session.remove(location);
             }
 
             session.getTransaction().commit();
         }
     }
 
-    public List<Location> findAllbyUserId(Long id){
-        try(Session session = sessionFactory.openSession()){
-         return session.createQuery("Select l From Location l Where l.user.id = :id", Location.class).setParameter("id", id).list();
+    public List<Location> findAllByUserId(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("Select l From Location l Where l.user.id = :id", Location.class).setParameter("id", id).list();
         }
     }
 

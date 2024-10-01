@@ -37,7 +37,7 @@ public class LocationsService {
     }
 
     public List<WeatherCardDTO> findAllWeatherCards(Long id) throws IOException {
-        var ListLocations = locationsDAO.findAllbyUserId(id);
+        var ListLocations = locationsDAO.findAllByUserId(id);
         List<WeatherCardDTO> allWeatherCards = new ArrayList<>();
         for (Location location : ListLocations) {
             allWeatherCards.add(getWeatherForLocation(location.getLat(), location.getLon(), location.getId()));

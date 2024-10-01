@@ -5,13 +5,12 @@ import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.exception.RegistrationException;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
-import com.example.weatherviewerapp.utils.UserMapper;
+import com.example.weatherviewerapp.utils.MappingUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.exception.ConstraintViolationException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -46,7 +45,7 @@ public class RegistrationServlet extends HttpServlet {
                         .password(BCrypt.hashpw(pass, BCrypt.gensalt()))
                         .build();
 
-                User user = UserMapper.INSTANCE.toUserEntityFromDTO(userRequestDTO);
+                User user = MappingUtils.toUserFromDTO(userRequestDTO);
                 userDAO.save(user);
                 resp.sendRedirect("/sign-in");
 

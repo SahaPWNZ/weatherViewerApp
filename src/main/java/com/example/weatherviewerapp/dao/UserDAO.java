@@ -32,7 +32,6 @@ public class UserDAO extends BaseDAO<User, Long> {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(User.class, id));
         }
-        //ошибка
     }
 
     @Override
@@ -58,10 +57,9 @@ public class UserDAO extends BaseDAO<User, Long> {
             if (user != null) {
                 session.remove(user);
             }
-
             session.getTransaction().commit();
         }
-        //catch
+
     }
 
     public Optional<User> findByLogin(String login) {
