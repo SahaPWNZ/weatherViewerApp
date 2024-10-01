@@ -58,25 +58,23 @@ public class OpenWeatherService {
         }
     }
 
-    public WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon) throws IOException{
+    public WeatherResponseDTO getWeatherForCoordinatesHttpMethod(double lat, double lon) throws IOException {
         String DATA_URL = "data/2.5/weather?";
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(
-                            BASE_URL
-                                    + DATA_URL
-                                    + "lat=" + lat
-                                    + "&lon=" + lon
-                                    + "&units=metric"
-                                    + "&appid=" + ConfigUtil.getApiKey()))
+                    .uri(new URI(BASE_URL
+                            + DATA_URL
+                            + "lat=" + lat
+                            + "&lon=" + lon
+                            + "&units=metric"
+                            + "&appid=" + ConfigUtil.getApiKey()))
                     .GET()
                     .build();
 
             HttpResponse<String> response = getResponseIfValid(httpClient, request);
             log.info("Status code of response: " + response.statusCode());
             return objectMapper.readValue(response.body(), WeatherResponseDTO.class);
-        }
-        catch (InterruptedException | URISyntaxException | MismatchedInputException e) {
+        } catch (InterruptedException | URISyntaxException | MismatchedInputException e) {
             throw new OpenWeatherApiException("Problem with OpenWeatherApi");
         }
     }

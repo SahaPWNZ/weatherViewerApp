@@ -5,8 +5,7 @@ package com.example.weatherviewerapp.dto;
 import lombok.*;
 
 @Builder
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {

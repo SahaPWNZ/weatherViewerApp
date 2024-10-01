@@ -3,6 +3,7 @@ package com.example.weatherviewerapp.servlets;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
+import com.example.weatherviewerapp.exception.AuthenticationException;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
@@ -55,7 +56,7 @@ public class AuthorizationServlet extends HttpServlet {
             resp.addCookie(cookie);
             resp.sendRedirect("/home");
 
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
 
             context.setVariable("error", e.getMessage());
             templateEngine.process("sign-in.html", context, resp.getWriter());

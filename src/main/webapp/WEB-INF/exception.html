@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exception</title>
+</head>
+<body>
+<h1>Exception</h1>
+
+<div th:if="${error.length()!=null}" style="color: red;" class="error-message">
+    <p th:text="${error}"></p>
+</div>
+
+
+
+<a href="/home">Back to main page<br></a>
+
+</body>
+</html>

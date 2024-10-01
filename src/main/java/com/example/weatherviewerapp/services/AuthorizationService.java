@@ -21,6 +21,7 @@ public class AuthorizationService {
 
     public UserResponseDTO getUserDtoIfExist(UserRequestDTO userRequestDTO) {
         Optional<User> user = userDAO.findByLogin(userRequestDTO.getLogin());
+
         if (user.isPresent()) {
             log.info("A user with this login was found:" +userRequestDTO.getLogin());
             if(BCrypt.checkpw(userRequestDTO.getPassword(), user.get().getPassword())){
