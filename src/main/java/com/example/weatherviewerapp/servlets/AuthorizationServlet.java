@@ -1,11 +1,11 @@
 package com.example.weatherviewerapp.servlets;
 
+import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
-import com.example.weatherviewerapp.services.OpenWeatherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -24,8 +24,7 @@ import java.io.IOException;
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
 
-    private final OpenWeatherService openWeatherService = new OpenWeatherService();
-    private final AuthorizationService authorizationService = new AuthorizationService();
+    private final AuthorizationService authorizationService = new AuthorizationService(new UserDAO());
     private final CookieService cookieService = new CookieService();
 
     @Override
@@ -51,7 +50,7 @@ public class AuthorizationServlet extends HttpServlet {
                 .build();
 
         try {
-            UserResponseDTO userResponseDTO = authorizationService.getUserDTO(userRequestDTO);
+            UserResponseDTO userResponseDTO = authorizationService.getUserDtoIfExist(userRequestDTO);
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
             resp.addCookie(cookie);
             resp.sendRedirect("/home");

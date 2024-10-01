@@ -13,10 +13,15 @@ import java.util.Optional;
 
 @Slf4j
 public class AuthorizationService {
-    private final UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO;
+
+    public AuthorizationService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+//    private final UserDAO userDAO = new UserDAO();
 
 
-    public UserResponseDTO getUserDTO(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO getUserDtoIfExist(UserRequestDTO userRequestDTO) {
         Optional<User> user = userDAO.findByLogin(userRequestDTO.getLogin());
         if (user.isPresent()) {
             log.info("A user with this login was found:" +userRequestDTO.getLogin());

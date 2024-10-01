@@ -23,9 +23,19 @@ import java.util.List;
 @Slf4j
 public class OpenWeatherService {
     private final String BASE_URL = "https://api.openweathermap.org/";
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper;
     private final LocationsDAO locationsDAO = new LocationsDAO();
+
+    public OpenWeatherService(HttpClient httpClient, ObjectMapper objectMapper) {
+        this.httpClient = httpClient;
+        this.objectMapper = objectMapper;
+    }
+
+    public OpenWeatherService() {
+        this.httpClient = HttpClient.newHttpClient();
+        this.objectMapper = new ObjectMapper();
+    }
 
     public List<LocationResponseDTO> getLocationsHttpMethod(String city) {
         if (city.contains(" ")) {
