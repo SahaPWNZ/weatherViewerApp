@@ -2,10 +2,8 @@ package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.exception.RegistrationException;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;

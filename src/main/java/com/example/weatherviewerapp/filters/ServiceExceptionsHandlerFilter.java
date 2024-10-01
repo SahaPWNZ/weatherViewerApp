@@ -2,7 +2,7 @@ package com.example.weatherviewerapp.filters;
 
 import com.example.weatherviewerapp.exception.InvalidStatusCodeException;
 import com.example.weatherviewerapp.exception.OpenWeatherApiException;
-import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
+import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;

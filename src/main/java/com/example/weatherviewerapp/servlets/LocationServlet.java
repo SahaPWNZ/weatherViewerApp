@@ -2,7 +2,7 @@ package com.example.weatherviewerapp.servlets;
 
 import com.example.weatherviewerapp.dao.LocationsDAO;
 import com.example.weatherviewerapp.entity.Location;
-import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
+import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.LocationsService;
 import com.example.weatherviewerapp.services.OpenWeatherService;

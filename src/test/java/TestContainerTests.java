@@ -1,4 +1,3 @@
-import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +7,10 @@ import org.junit.jupiter.api.*;
 import org.mindrot.jbcrypt.BCrypt;
 import util.HibernateTestUtil;
 
-import javax.naming.ldap.PagedResultsControl;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 
@@ -46,7 +44,7 @@ class TestContainerTests {
         @Test
         void testAddNewUsers() {
             User testUser = User.builder()
-                    .login("saha")
+                    .login("Sasha")
                     .password(BCrypt.hashpw("2210", BCrypt.gensalt()))
                     .build();
             Assertions.assertInstanceOf(User.class, userDAO.save(testUser));
@@ -63,7 +61,7 @@ class TestContainerTests {
         @Test
         void testGetUserOnLogin() {
             assertEquals(Optional.empty(), userDAO.findByLogin("InvalidLogin"));
-            assertEquals(2L, userDAO.findByLogin("testLogin").get().getId());
+            assertEquals(2L, userDAO.findByLogin("testLogin").orElseThrow().getId());
         }
 
         @Order(4)

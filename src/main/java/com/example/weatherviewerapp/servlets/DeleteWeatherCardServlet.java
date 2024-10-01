@@ -1,7 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
 import com.example.weatherviewerapp.dao.LocationsDAO;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ public class DeleteWeatherCardServlet extends HttpServlet {
 private final LocationsDAO locationsDAO = new LocationsDAO();
 
 @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         locationsDAO.delete(Long.valueOf(req.getParameter("locationId")));
         resp.sendRedirect("/home");

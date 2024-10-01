@@ -1,11 +1,9 @@
 package com.example.weatherviewerapp.servlets;
 
 import com.example.weatherviewerapp.dao.LocationsDAO;
-import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
+import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.LocationsService;
-import com.example.weatherviewerapp.services.OpenWeatherService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +21,7 @@ public class HomeServlet extends HttpServlet {
     private final LocationsService locationsService = new LocationsService(new LocationsDAO());
     private final CookieService cookieService = new CookieService();
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                 ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);

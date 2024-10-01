@@ -30,11 +30,11 @@ public class CookieService {
     }
 
     public User getUserForCookie(Cookie cookie) {
-        return sessionDAO.findById(cookie.getValue()).get().getUser();
+        return sessionDAO.findById(cookie.getValue()).orElseThrow().getUser();
     }
 
     public void updateUserSession(Cookie cookie) {
-        UserSession userSession = sessionDAO.findById(cookie.getValue()).get();
+        UserSession userSession = sessionDAO.findById(cookie.getValue()).orElseThrow();
         userSession.setTimestamp(new Timestamp(System.currentTimeMillis() + COOKIE_LIFETIME_EXT));
         sessionDAO.save(userSession);
     }

@@ -11,7 +11,7 @@ public class MappingUtils {
 public static UserSession toUserSessionFromDTO(UserSessionDTO userSessionDTO){
     return UserSession.builder()
             .id(userSessionDTO.getGUID())
-            .user(userDAO.findById(userSessionDTO.getUserId()).get())
+            .user(userDAO.findById(userSessionDTO.getUserId()).orElseThrow())
             .timestamp(userSessionDTO.getTimestamp())
             .build();
 }

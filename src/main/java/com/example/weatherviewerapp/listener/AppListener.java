@@ -1,4 +1,4 @@
-package com.example.weatherviewerapp.listner;
+package com.example.weatherviewerapp.listener;
 
 import com.example.weatherviewerapp.utils.Scheduler;
 import jakarta.servlet.ServletContextEvent;
@@ -13,7 +13,7 @@ public class AppListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        log.info("Запуск шедулера в листнере");
+        log.info("Start scheduler in listener");
         scheduler.startCleanUpTusk();
     }
 

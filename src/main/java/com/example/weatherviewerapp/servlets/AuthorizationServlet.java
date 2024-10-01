@@ -4,7 +4,7 @@ import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.exception.AuthenticationException;
-import com.example.weatherviewerapp.listner.ThymeleafConfiguration;
+import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
 import jakarta.servlet.ServletException;
@@ -37,7 +37,7 @@ public class AuthorizationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                 ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())

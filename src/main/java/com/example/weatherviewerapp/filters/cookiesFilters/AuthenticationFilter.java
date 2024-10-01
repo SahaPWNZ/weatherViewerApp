@@ -25,9 +25,6 @@ public class AuthenticationFilter extends HttpFilter {
 
         if (cookie != null && cookieService.isCookieInDB(cookie)) {
             log.info("Куки в бд - редирект на main.html");
-//            res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-//            res.setHeader("Pragma", "no-cache");
-//            res.setDateHeader("Expires", 0);
             res.sendRedirect("/home");
         } else {
             log.info("Нужных куки нет или они равны налл");

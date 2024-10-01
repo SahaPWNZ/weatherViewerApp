@@ -1,4 +1,4 @@
-package com.example.weatherviewerapp.listner;
+package com.example.weatherviewerapp.listener;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
