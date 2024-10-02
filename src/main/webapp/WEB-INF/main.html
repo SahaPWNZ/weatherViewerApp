@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
+    <title>Main page</title>
 </head>
 <body>
 
@@ -16,10 +16,10 @@
     <label for="locationName"></label>
     <input type="text" placeholder="Введите локацию" id="locationName"
            name="locationName" required>
-    <button type="submit">Поиск локации</button>
+    <button type="submit">Location search</button>
 </form>
 <div th:if="${weatherCards == null || #lists.isEmpty(weatherCards)}">
-    <p>Локации не найдены.</p>
+    <p>No locations found.</p>
 </div>
 <div th:if="${weatherCards != null && !#lists.isEmpty(weatherCards)}">
     <h2>WeatherLocations:</h2>
@@ -32,14 +32,10 @@
             <h3 th:text="'Страна:'+${card.country}"></h3>
             <form method="post" th:action="@{/deleteWeatherCard}">
                 <input type="hidden" th:name="'locationId'" th:value="${card.locationId}" />
-                <button type="submit">Удалить</button>
+                <button type="submit">Delete</button>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
 </body>
 </html>

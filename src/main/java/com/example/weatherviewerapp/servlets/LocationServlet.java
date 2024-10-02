@@ -35,8 +35,6 @@ public class LocationServlet extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-        //валидация введеного названия города
-
         var responseDTOList = openWeatherService.getLocationsHttpMethod(req.getParameter("locationName"));
         context.setVariable("locations", responseDTOList);
         templateEngine.process("locations.html", context, resp.getWriter());

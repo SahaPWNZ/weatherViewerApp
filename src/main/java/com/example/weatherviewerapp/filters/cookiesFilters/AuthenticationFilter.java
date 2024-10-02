@@ -20,14 +20,15 @@ public class AuthenticationFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        log.info("Запуск фильтра Куки для /sign-in or /sign-on");
+
+        log.info("Run the Cookie filter for /sign-in or /sign-on");
         Cookie cookie = cookieService.getSessionCookie(req);
 
         if (cookie != null && cookieService.isCookieInDB(cookie)) {
-            log.info("Куки в бд - редирект на main.html");
+            log.info("Cookies in the database - redirect to /home");
             res.sendRedirect("/home");
         } else {
-            log.info("Нужных куки нет или они равны налл");
+            log.info("There are no cookies or they are null");
             chain.doFilter(req, res);
         }
     }
