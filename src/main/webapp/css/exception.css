@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif; /* Font for the page */
+    background-color: #f4f4f4; /* Light gray background */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%; /* Full width */
+    max-width: 600px; /* Maximum width for the container */
+    margin: 100px auto; /* Centering the container with margin at the top */
+    padding: 20px; /* Internal padding */
+    background-color: white; /* White background for the content */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+.error-title {
+    text-align: center; /* Centering the title */
+    color: #333; /* Dark gray color for the title */
+}
+
+.error-message {
+    text-align: center; /* Centering the error message */
+    margin-top: 20px; /* Space above the error message */
+}
+
+.back-link {
+    display: block; /* Make the link a block element */
+    text-align: center; /* Centering the link */
+    margin-top: 30px; /* Space above the link */
+    color: #007bff; /* Blue color for the link */
+    text-decoration: none; /* Remove underline from link */
+}
+
+.back-link:hover {
+    text-decoration: underline; /* Underline on hover for better visibility */
+}

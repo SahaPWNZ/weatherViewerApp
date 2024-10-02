@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif; /* Шрифт страницы */
+    background-color: #f4f4f4; /* Цвет фона */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 400px; /* Максимальная ширина контейнера */
+    margin: 100px auto; /* Центрирование контейнера */
+    padding: 20px; /* Внутренний отступ */
+    background-color: white; /* Цвет фона контейнера */
+    border-radius: 8px; /* Закругленные углы */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+}
+
+h1 {
+    text-align: center; /* Центрирование заголовка */
+    color: #333; /* Цвет заголовка */
+}
+
+.error-message {
+    color: red; /* Цвет сообщения об ошибке */
+    text-align: center; /* Центрирование сообщения об ошибке */
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов формы */
+}
+
+label {
+    margin-bottom: 5px; /* Отступ между меткой и полем ввода */
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px; /* Внутренний отступ */
+    margin-bottom: 15px; /* Отступ между полями ввода */
+    border: 1px solid #ccc; /* Цвет границы */
+    border-radius: 4px; /* Закругленные углы для полей ввода */
+}
+
+input[type="submit"] {
+    padding: 10px;
+    background-color: #007bff; /* Цвет кнопки отправки */
+    color: white; /* Цвет текста кнопки */
+    border: none;
+    border-radius: 4px; /* Закругленные углы для кнопки */
+    cursor: pointer; /* Указатель при наведении на кнопку */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Темнее при наведении на кнопку */
+}
+
+a {
+    display: inline-block; /* Позволяет использовать margin для центрирования */
+    color: #007bff; /* Цвет текста ссылки */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-weight: bold; /* Жирный шрифт */
+    transition: color 0.3s, text-shadow 0.3s; /* Плавный переход для цвета и тени текста */
+    margin-top: 20px; /* Отступ сверху */
+}
+
+a:hover {
+    color: #0056b3; /* Темнее при наведении на ссылку */
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* Тень текста при наведении */
+}
+.registration-link {
+    display: block;
+    text-align: center; /* Центрирование ссылки на регистрацию */
+    margin-top: 15px; /* Отступ сверху для ссылки */
+}
+a:active {
+    color: #003d7a; /* Еще темнее при нажатии */
+}

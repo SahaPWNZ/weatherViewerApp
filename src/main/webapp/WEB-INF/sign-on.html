@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link rel="stylesheet" type="text/css" href="/css/sign-on.css"> <!-- Подключение CSS -->
 </head>
 <body>
-<h1>Sign-on</h1>
-<div th:if="${error.length()!=null}" style="color: red;" class="error-message">
-    <p th:text="${error}"></p>
-</div>
-<form action="sign-on" method="post">
-    <label for="login">Login:</label>
-    <input type="text" id="login" name="login" required><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <label for="confirm_password">Confirm password:</label>
-    <input type="password" id="confirm_password" name="confirm_password" required><br><br>
-    <input type="submit" value="Registration">
-    <a href="/sign-in">Authorization<br></a>
-</form>
+<div class="container">
+    <h1>Sign-on</h1>
 
+    <div th:if="${error.length() != null}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form action="/sign-on" method="post">
+        <label for="login">Login:</label>
+        <input type="text" id="login" name="login" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm_password">Confirm password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <input type="submit" value="Registration">
+        <a href="/sign-in" class="registration-link">Authorization</a>
+    </form>
+</div>
 </body>
 </html>

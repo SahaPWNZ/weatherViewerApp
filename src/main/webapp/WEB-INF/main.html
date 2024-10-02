@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main page</title>
 </head>
 <body>
 
-<form method="get" action="/logout">
-    <input type="submit" value="Logout">
-</form>
+<div class="container">
+    <div class="logout-form">
+        <form method="get" action="/logout">
+            <input type="submit" value="Logout" class="button logout-button">
+        </form>
+    </div>
 
+    <div class="search-form">
+        <form method="get" action="/getLocations">
+            <label for="locationName"></label><input type="text" placeholder="Введите локацию" id="locationName"
+                                                     name="locationName" required>
+            <button type="submit" class="button search-button">Location search</button>
+        </form>
+    </div>
 
-<form method="get" action="/getLocations">
-    <label for="locationName"></label>
-    <input type="text" placeholder="Введите локацию" id="locationName"
-           name="locationName" required>
-    <button type="submit">Location search</button>
-</form>
-<div th:if="${weatherCards == null || #lists.isEmpty(weatherCards)}">
-    <p>No locations found.</p>
-</div>
-<div th:if="${weatherCards != null && !#lists.isEmpty(weatherCards)}">
-    <h2>WeatherLocations:</h2>
-    <div th:each="card : ${weatherCards}">
-        <div class="location-card">
-            <p th:text="'Температура:'+${card.temp}"></p>
-            <p th:text="'Ощущается как:'+${card.feelsLike}"></p>
-            <p th:text="'Описание:'+${card.description}"></p>
-            <h3 th:text="'Локация:'+${card.nameLocation}"></h3>
-            <h3 th:text="'Страна:'+${card.country}"></h3>
+    <h2 class="weather-title">Weather Locations:</h2>
+
+    <div th:if="${weatherCards == null || #lists.isEmpty(weatherCards)}">
+        <p>No locations found.</p>
+    </div>
+
+    <div th:if="${weatherCards != null && !#lists.isEmpty(weatherCards)}" class="weather-cards-container">
+        <div th:each="card : ${weatherCards}" class="location-card">
+            <p th:text="'Температура: ' + ${card.temp}"></p>
+            <p th:text="'Ощущается как: ' + ${card.feelsLike}"></p>
+            <p th:text="'Описание: ' + ${card.description}"></p>
+            <h3 th:text="'Локация: ' + ${card.nameLocation}"></h3>
+            <h3 th:text="'Страна: ' + ${card.country}"></h3>
             <form method="post" th:action="@{/deleteWeatherCard}">
                 <input type="hidden" th:name="'locationId'" th:value="${card.locationId}" />
-                <button type="submit">Delete</button>
+                <button type="submit" class="button delete-button">Delete</button>
             </form>
         </div>
     </div>
 </div>
+
 </body>
 </html>

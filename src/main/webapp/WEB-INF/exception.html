@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Exception</title>
+    <link rel="stylesheet" type="text/css" href="/css/exception.css"> <!-- Link to CSS -->
 </head>
 <body>
-<h1>Exception</h1>
 
-<div th:if="${error.length()!=null}" style="color: red;" class="error-message">
-    <p th:text="${error}"></p>
+<div class="container">
+    <h1 class="error-title">Exception</h1>
+
+    <div th:if="${error.length() != null}" class="error-message">
+        <p th:text="${error}" style="color: red;"></p>
+    </div>
+
+    <a href="/home" class="back-link">Back to main page</a>
 </div>
-
-
-
-<a href="/home">Back to main page<br></a>
 
 </body>
 </html>

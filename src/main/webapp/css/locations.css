@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif; /* Font for the page */
+    background-color: #f4f4f4; /* Background color */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%; /* Full width */
+    max-width: 1200px; /* Maximum width */
+    margin: 20px auto; /* Centering the container */
+    padding: 20px; /* Internal padding */
+}
+
+.logout-form {
+    margin-bottom: 20px; /* Space below the logout button */
+}
+
+.button {
+    padding: 10px 15px; /* Button padding */
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
+
+.weather-title {
+    text-align: left; /* Align title to the left */
+    margin-top: 30px; /* Space above the title */
+}
+
+.locations-container {
+    display: flex; /* Use Flexbox for layout */
+    flex-wrap: wrap; /* Allow wrapping of cards */
+}
+
+.location-card {
+    background-color: white; /* Card background color */
+    border-radius: 5px; /* Rounded corners for cards */
+    padding: 15px; /* Internal padding for cards */
+    margin: 10px; /* Space between cards */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Light shadow for cards */
+    border: 1px solid #ccc; /* Border for cards */
+    width: calc(30% - 20px); /* Width for three cards in a row, accounting for margins */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .location-card {
+        width: calc(45% - 20px); /* Two cards in a row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .location-card {
+        width: calc(100% - 20px); /* One card in a row on small screens */
+    }
+}
