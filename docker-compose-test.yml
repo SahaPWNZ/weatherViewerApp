@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:13.3
+    restart: always
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: weather_app_db
+      POSTGRES_USER: saha
+      POSTGRES_PASSWORD: saha
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
