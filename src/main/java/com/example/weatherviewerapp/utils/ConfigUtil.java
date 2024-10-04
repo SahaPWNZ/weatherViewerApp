@@ -35,12 +35,12 @@ public class ConfigUtil {
 //    public static String getDbPort() {
 //        return properties.getProperty("DB.PORT");
 //    }
-//    public static String getDbUser() {
-//        return properties.getProperty("DB.USER");
-//    }
-//    public static String getDbPass() {
-//        return properties.getProperty("DB.PASSWORD");
-//    }
+    public static String getDbUser() {
+        return properties.getProperty("DB.USER");
+    }
+    public static String getDbPass() {
+        return properties.getProperty("DB.PASSWORD");
+    }
 //    public static String getDbName() {
 //        return properties.getProperty("DB.NAME");
 //    }

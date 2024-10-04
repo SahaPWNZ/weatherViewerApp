@@ -10,15 +10,18 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-     @Getter
-     private static final SessionFactory sessionFactory;
+    @Getter
+    private static final SessionFactory sessionFactory;
 
     static {
         sessionFactory = getConfiguration()
                 .buildSessionFactory();
     }
-    private static Configuration getConfiguration(){
+
+    private static Configuration getConfiguration() {
         return new Configuration()
+                .setProperty("hibernate.connection.username", ConfigUtil.getDbUser())
+                .setProperty("hibernate.connection.password", ConfigUtil.getDbPass())
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Location.class)
                 .addAnnotatedClass(UserSession.class)
