@@ -1,15 +1,14 @@
 package com.example.weatherviewerapp.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +23,12 @@ public class UserSession {
     @Column(name = "expiresAt", nullable = false)
     private Timestamp timestamp;
 
+    @Override
+    public String toString() {
+        return "UserSession{" +
+                "id='" + id + '\'' +
+                ", user=" + user +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

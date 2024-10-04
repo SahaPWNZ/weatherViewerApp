@@ -16,10 +16,6 @@ public class StartFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException {
         log.info("StartFilter is work");
-        Map<String, String> env = System.getenv();
-        for (String envName : env.keySet()) {
-            System.out.format("%s=%s%n", envName, env.get(envName));
-        }
         res.sendRedirect("/home");
     }
 }
