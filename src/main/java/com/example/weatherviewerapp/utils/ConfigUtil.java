@@ -17,7 +17,31 @@ public class ConfigUtil {
             throw new ExceptionInInitializerError("Failed to load configuration file");
         }
     }
+
     public static String getApiKey() {
         return properties.getProperty("api.id");
     }
+
+    public static int getCookieLifetimeExt() {
+        return Integer.parseInt(properties.getProperty("COOKIE.LIFETIME.EXT"));
+    }
+
+    public static int getCookieAge(){
+        return Integer.parseInt(properties.getProperty("COOKIE.AGE"));
+    }
+//    public static String getDbHost() {
+//        return properties.getProperty("DB.HOST");
+//    }
+//    public static String getDbPort() {
+//        return properties.getProperty("DB.PORT");
+//    }
+//    public static String getDbUser() {
+//        return properties.getProperty("DB.USER");
+//    }
+//    public static String getDbPass() {
+//        return properties.getProperty("DB.PASSWORD");
+//    }
+//    public static String getDbName() {
+//        return properties.getProperty("DB.NAME");
+//    }
 }

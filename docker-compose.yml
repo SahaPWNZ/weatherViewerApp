@@ -10,3 +10,22 @@ services:
       POSTGRES_PASSWORD: saha
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  webapp:
+    container_name: java_web_app
+    depends_on:
+      - postgres
+    image: weather-app
+    build: .
+    ports:
+      - "8080:8080"
+
+#    environment:
+#      DB_HOST: postgres
+#      DB_PORT: 5432
+#      DB_USER: saha
+#      DB_PASSWORD: saha
+#      DB_NAME: weather_app_db
+volumes:
+  pgdata:

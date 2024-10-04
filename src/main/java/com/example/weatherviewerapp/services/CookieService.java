@@ -5,6 +5,7 @@ import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.dto.UserSessionDTO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
+import com.example.weatherviewerapp.utils.ConfigUtil;
 import com.example.weatherviewerapp.utils.MappingUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +16,8 @@ import java.util.UUID;
 
 public class CookieService {
     private static final SessionDAO sessionDAO = new SessionDAO();
-    private static final int COOKIE_LIFETIME_EXT = 1800000;
+    private static final int COOKIE_LIFETIME_EXT = ConfigUtil.getCookieLifetimeExt();
+    private static final int COOKIE_AGE = ConfigUtil.getCookieAge();
 
     public Cookie getSessionCookie(HttpServletRequest request) {
         return Arrays.stream(request.getCookies())
@@ -46,7 +48,7 @@ public class CookieService {
     public Cookie getCookieForNewSession(UserResponseDTO userResponseDTO) {
         UserSession userSession = AddUserSession(userResponseDTO.getId());
         Cookie cookie = new Cookie("sessionId", userSession.getId());
-        cookie.setMaxAge(1800);
+        cookie.setMaxAge(COOKIE_AGE);
         return cookie;
     }
 
