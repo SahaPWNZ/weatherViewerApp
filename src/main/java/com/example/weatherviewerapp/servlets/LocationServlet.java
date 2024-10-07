@@ -2,6 +2,7 @@ package com.example.weatherviewerapp.servlets;
 
 import com.example.weatherviewerapp.dao.LocationsDAO;
 import com.example.weatherviewerapp.entity.Location;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.LocationsService;
 import com.example.weatherviewerapp.services.OpenWeatherService;
@@ -35,15 +36,22 @@ public class LocationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String lat = req.getParameter("lat");
+        String lon = req.getParameter("lon");
+        String name = req.getParameter("name");
+
+        stringValidate(name);
+        longValidate(lat);
+        longValidate(lon);
 
         Cookie cookie = cookieService.getSessionCookie(req);
         if (cookie == null || !cookieService.isCookieInDB(cookie)) {
             resp.sendRedirect("/sign.html");
         } else {
             var location = Location.builder()
-                    .lat(Double.valueOf(req.getParameter("lat")))
-                    .lon(Double.valueOf(req.getParameter("lon")))
-                    .name(req.getParameter("name"))
+                    .lat(Double.valueOf(lat))
+                    .lon(Double.valueOf(lon))
+                    .name(name)
                     .build();
 
             locationsService.addLocationToUser(cookieService.getUserForCookie(cookie), location);
@@ -55,4 +63,17 @@ public class LocationServlet extends HttpServlet {
     public void init() {
         thymleafHandler = new ThymleafHandler(getServletContext());
     }
+
+    private void longValidate(String value) {
+        if (value == null || value.isEmpty() || !value.matches("\\d+")) {
+            throw new CustomException("Invalid lat or lon location parameter");
+        }
+    }
+
+    private void stringValidate(String str) {
+        if (str == null || str.isEmpty()) {
+            throw new CustomException("Name cannot be empty!");
+        }
+    }
+
 }

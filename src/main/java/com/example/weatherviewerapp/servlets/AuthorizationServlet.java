@@ -36,12 +36,16 @@ public class AuthorizationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         WebContext context = thymleafHandler.createWebContext(req, resp);
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder()
-                .login(req.getParameter("login"))
-                .password(req.getParameter("password"))
-                .build();
 
         try {
+            validate(req.getParameter("login"));
+            validate(req.getParameter("password"));
+
+            UserRequestDTO userRequestDTO = UserRequestDTO.builder()
+                    .login(req.getParameter("login"))
+                    .password(req.getParameter("password"))
+                    .build();
+
             UserResponseDTO userResponseDTO = authorizationService.getUserDtoIfExist(userRequestDTO);
             Cookie cookie = cookieService.getCookieForNewSession(userResponseDTO);
             resp.addCookie(cookie);
@@ -57,5 +61,11 @@ public class AuthorizationServlet extends HttpServlet {
     @Override
     public void init() {
         thymleafHandler = new ThymleafHandler(getServletContext());
+    }
+
+    private void validate(String str) {
+        if (str == null || str.isEmpty()) {
+            throw new CustomException("Fields must be completed!");
+        }
     }
 }
