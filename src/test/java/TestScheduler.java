@@ -1,7 +1,7 @@
 import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
-import com.example.weatherviewerapp.services.SessionsCleanupTusk;
+import com.example.weatherviewerapp.utils.Scheduler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,12 +15,12 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TestSessionsCleanupTusk {
+class TestScheduler {
 
     @Mock
     private SessionDAO sessionDAO;
     @InjectMocks
-    private SessionsCleanupTusk sessionsCleanupTusk;
+    private Scheduler scheduler;
     private final User testUser1 = User.builder()
             .id(1L)
             .build();
@@ -37,7 +37,7 @@ class TestSessionsCleanupTusk {
 
         when(sessionDAO.findAll()).thenReturn(List.of(expiredSession, validSession));
 
-        sessionsCleanupTusk.run();
+        scheduler.run();
 
         verify(sessionDAO).delete(expiredSession.getId());
         verify(sessionDAO, never()).delete(validSession.getId());

@@ -1,5 +1,6 @@
 package com.example.weatherviewerapp.listener;
 
+import com.example.weatherviewerapp.dao.SessionDAO;
 import com.example.weatherviewerapp.utils.Scheduler;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @WebListener
 public class AppListener implements ServletContextListener {
-    private final Scheduler scheduler = new Scheduler();
+    private final Scheduler scheduler = new Scheduler(new SessionDAO());
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
