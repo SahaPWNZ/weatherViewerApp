@@ -2,8 +2,7 @@ package com.example.weatherviewerapp.services;
 
 import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
 import com.example.weatherviewerapp.dto.api.WeatherResponseDTO;
-import com.example.weatherviewerapp.exception.InvalidStatusCodeException;
-import com.example.weatherviewerapp.exception.OpenWeatherApiException;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.utils.ConfigUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +53,8 @@ public class OpenWeatherService {
             return objectMapper.readValue(response.body(), new TypeReference<>() {
             });
         } catch (InterruptedException | MismatchedInputException | URISyntaxException e) {
-            throw new OpenWeatherApiException("Problem with OpenWeatherApi");
+            log.error("WeatherApiException", e);
+            throw new CustomException("Problem with OpenWeatherApi");
         }
     }
 
@@ -75,7 +75,8 @@ public class OpenWeatherService {
             log.info("Status code of response: " + response.statusCode());
             return objectMapper.readValue(response.body(), WeatherResponseDTO.class);
         } catch (InterruptedException | URISyntaxException | MismatchedInputException e) {
-            throw new OpenWeatherApiException("Problem with OpenWeatherApi");
+            log.error("WeatherApiException", e);
+            throw new CustomException("Problem with OpenWeatherApi");
         }
     }
 
@@ -84,7 +85,8 @@ public class OpenWeatherService {
 
         int statusCode = res.statusCode();
         if ((statusCode >= 500 && statusCode < 600) || (statusCode >= 400 && statusCode < 500)) {
-            throw new InvalidStatusCodeException("Incorrect response status from Api");
+            log.error("Incorrect response status from Api");
+            throw new CustomException("Incorrect response status from Api");
         }
 
         return res;

@@ -1,6 +1,5 @@
 import com.example.weatherviewerapp.dto.api.LocationResponseDTO;
-import com.example.weatherviewerapp.exception.InvalidStatusCodeException;
-import com.example.weatherviewerapp.exception.OpenWeatherApiException;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.services.OpenWeatherService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +76,7 @@ class TestOpenWeatherService {
         setUpMockHttpClient();
         when(mockHttpResponse.statusCode()).thenReturn(500);
 
-        Assertions.assertThrows(InvalidStatusCodeException.class,
+        Assertions.assertThrows(CustomException.class,
                 () -> weatherService.getLocationsHttpMethod("London"));
     }
     @Test
@@ -85,7 +84,7 @@ class TestOpenWeatherService {
         setUpMockHttpClient();
         when(mockHttpResponse.statusCode()).thenReturn(404);
 
-        Assertions.assertThrows(InvalidStatusCodeException.class,
+        Assertions.assertThrows(CustomException.class,
                 () -> weatherService.getLocationsHttpMethod("Minsk"));
     }
 
@@ -97,7 +96,7 @@ class TestOpenWeatherService {
         setUpMockHttpClient();
         when(mockHttpResponse.body()).thenReturn(invalidResponse);
 
-        Assertions.assertThrows(OpenWeatherApiException.class,
+        Assertions.assertThrows(CustomException.class,
                 () -> weatherService.getLocationsHttpMethod("Minsk"));
     }
 }

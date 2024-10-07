@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -21,14 +20,14 @@ public class UserSession {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(name = "expiresAt", nullable = false)
-    private Timestamp timestamp;
+    private Timestamp activeTime;
 
     @Override
     public String toString() {
         return "UserSession{" +
                 "id='" + id + '\'' +
                 ", user=" + user +
-                ", timestamp=" + timestamp +
+                ", timestamp=" + activeTime +
                 '}';
     }
 }

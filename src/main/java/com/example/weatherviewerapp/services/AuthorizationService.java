@@ -4,7 +4,7 @@ import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
-import com.example.weatherviewerapp.exception.AuthenticationException;
+import com.example.weatherviewerapp.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -25,8 +25,7 @@ public class AuthorizationService {
             log.info("A user with this login was found:" + userRequestDTO.getLogin());
             return new UserResponseDTO(user.get().getId());
         } else {
-
-            throw new AuthenticationException("Invalid login or password");
+            throw new CustomException("Invalid login or password");
         }
     }
 }

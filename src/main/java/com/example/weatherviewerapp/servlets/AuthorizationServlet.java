@@ -3,10 +3,10 @@ package com.example.weatherviewerapp.servlets;
 import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
-import com.example.weatherviewerapp.exception.AuthenticationException;
-import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import com.example.weatherviewerapp.services.CookieService;
+import com.example.weatherviewerapp.utils.ThymleafHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -14,17 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.web.IWebExchange;
-import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
 @Slf4j
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
-
+    private ThymleafHandler thymleafHandler;
     private final AuthorizationService authorizationService = new AuthorizationService(new UserDAO());
     private final CookieService cookieService = new CookieService();
 
@@ -38,13 +35,7 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
-                ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);
-        IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
-                .buildExchange(req, resp);
-
-        WebContext context = new WebContext(webExchange);
-
+        WebContext context = thymleafHandler.createWebContext(req, resp);
         UserRequestDTO userRequestDTO = UserRequestDTO.builder()
                 .login(req.getParameter("login"))
                 .password(req.getParameter("password"))
@@ -56,11 +47,15 @@ public class AuthorizationServlet extends HttpServlet {
             resp.addCookie(cookie);
             resp.sendRedirect("/home");
 
-        } catch (AuthenticationException e) {
-
+        } catch (CustomException e) {
+            log.error(e.getMessage(), e);
             context.setVariable("error", e.getMessage());
-            templateEngine.process("sign-in.html", context, resp.getWriter());
+            thymleafHandler.getTemplateEngine().process("sign-in.html", context, resp.getWriter());
         }
     }
 
+    @Override
+    public void init() {
+        thymleafHandler = new ThymleafHandler(getServletContext());
+    }
 }

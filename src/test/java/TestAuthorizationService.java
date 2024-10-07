@@ -2,7 +2,7 @@ import com.example.weatherviewerapp.dao.UserDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
-import com.example.weatherviewerapp.exception.AuthenticationException;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.services.AuthorizationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class TestAuthorizationService {
 
         Mockito.when(userDAO.findByLogin("testLogin")).thenReturn(user);
 
-        Assertions.assertThrows(AuthenticationException.class,
+        Assertions.assertThrows(CustomException.class,
                 () -> authorizationService.getUserDtoIfExist(testRequestDTO));
     }
 
@@ -55,7 +55,7 @@ class TestAuthorizationService {
 
         Mockito.when(userDAO.findByLogin("testLogin")).thenReturn(user);
 
-        Assertions.assertThrows(AuthenticationException.class,
+        Assertions.assertThrows(CustomException.class,
                 () -> authorizationService.getUserDtoIfExist(testRequestDTO));
     }
 }

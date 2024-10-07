@@ -1,7 +1,7 @@
 package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.User;
-import com.example.weatherviewerapp.exception.RegistrationException;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,7 +44,7 @@ public class UserDAO implements BaseDAO<User, Long> {
             session.getTransaction().commit();
             return entity;
         } catch (ConstraintViolationException e) {
-            throw new RegistrationException("There is already a user with this login");
+            throw new CustomException("There is already a user with this login");
         }
 
     }

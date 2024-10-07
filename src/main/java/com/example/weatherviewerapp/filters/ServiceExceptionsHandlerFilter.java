@@ -1,7 +1,6 @@
 package com.example.weatherviewerapp.filters;
 
-import com.example.weatherviewerapp.exception.InvalidStatusCodeException;
-import com.example.weatherviewerapp.exception.OpenWeatherApiException;
+import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.listener.ThymeleafConfiguration;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +21,7 @@ public class ServiceExceptionsHandlerFilter extends HttpFilter {
     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         try {
             super.doFilter(req, res, chain);
-        } catch (InvalidStatusCodeException | OpenWeatherApiException e) {
+        } catch (CustomException e) {
 
             TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(
                     ThymeleafConfiguration.TEMPLATE_ENGINE_ATTR);

@@ -20,10 +20,14 @@ public class CookieService {
     private static final int COOKIE_AGE = ConfigUtil.getCookieAge();
 
     public Cookie getSessionCookie(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals("sessionId"))
-                .findFirst()
-                .orElse(null);
+        if (request.getCookies() != null) {
+            return Arrays.stream(request.getCookies())
+                    .filter(cookie -> cookie.getName().equals("sessionId"))
+                    .findFirst()
+                    .orElse(null);
+        } else {
+            return null;
+        }
     }
 
     public boolean isCookieInDB(Cookie cookie) {
@@ -36,7 +40,7 @@ public class CookieService {
 
     public void updateUserSession(Cookie cookie) {
         UserSession userSession = sessionDAO.findById(cookie.getValue()).orElseThrow();
-        userSession.setTimestamp(new Timestamp(System.currentTimeMillis() + COOKIE_LIFETIME_EXT));
+        userSession.setActiveTime(new Timestamp(System.currentTimeMillis() + COOKIE_LIFETIME_EXT));
         sessionDAO.save(userSession);
     }
 
@@ -53,7 +57,7 @@ public class CookieService {
 
     private UserSession AddUserSession(Long id) {
         UserSessionDTO userSessionDTO = UserSessionDTO.builder()
-                .GUID(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
                 .userId(id)
                 .timestamp(new Timestamp(System.currentTimeMillis() + COOKIE_LIFETIME_EXT))
                 .build();

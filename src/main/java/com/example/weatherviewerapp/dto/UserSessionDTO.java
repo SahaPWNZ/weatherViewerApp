@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class UserSessionDTO {
-    private String GUID;
+    private String id;
     private Long userId;
     private Timestamp timestamp;
 }

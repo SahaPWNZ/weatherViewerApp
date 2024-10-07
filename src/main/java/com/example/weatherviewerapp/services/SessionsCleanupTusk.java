@@ -18,7 +18,7 @@ public class SessionsCleanupTusk implements Runnable {
     @Override
     public void run() {
         List<UserSession> allSessions = sessionDAO.findAll();
-        allSessions.stream().filter(session -> session.getTimestamp().before(new Timestamp(System.currentTimeMillis())))
+        allSessions.stream().filter(session -> session.getActiveTime().before(new Timestamp(System.currentTimeMillis())))
                 .forEach(session -> sessionDAO.delete(session.getId()));
         log.info("All outdated sessions are deleted");
     }
