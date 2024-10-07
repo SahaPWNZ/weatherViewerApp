@@ -1,14 +1,18 @@
 package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.Location;
+import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class LocationsDAO extends BaseDAO<Location, Long> {
+public class LocationsDAO implements BaseDAO<Location, Long> {
+    private final SessionFactory sessionFactory;
+
     public LocationsDAO() {
-        super();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override

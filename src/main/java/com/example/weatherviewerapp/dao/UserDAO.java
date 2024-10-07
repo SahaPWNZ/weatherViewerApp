@@ -2,6 +2,7 @@ package com.example.weatherviewerapp.dao;
 
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.exception.RegistrationException;
+import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
@@ -9,13 +10,15 @@ import org.hibernate.exception.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAO extends BaseDAO<User, Long> {
+public class UserDAO implements BaseDAO<User, Long> {
+    private final SessionFactory sessionFactory;
+
     public UserDAO() {
-        super();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     public UserDAO(SessionFactory sessionFactory) {
-        super(sessionFactory);
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -68,5 +71,4 @@ public class UserDAO extends BaseDAO<User, Long> {
                     .uniqueResult());
         }
     }
-
 }

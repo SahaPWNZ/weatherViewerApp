@@ -11,12 +11,13 @@ import java.io.IOException;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
-    private final CookieService cookieService= new CookieService();
+    private final CookieService cookieService = new CookieService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Cookie cookie = cookieService.getSessionCookie(req);
-        if(cookie!=null){
+        if (cookie != null) {
 
             cookieService.deleteCookieSession(cookie);
             cookie.setMaxAge(0);

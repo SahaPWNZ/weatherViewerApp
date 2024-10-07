@@ -33,5 +33,4 @@ public class LocationResponseDTO {
                 ", country='" + country + '\'' +
                 '}';
     }
-
 }

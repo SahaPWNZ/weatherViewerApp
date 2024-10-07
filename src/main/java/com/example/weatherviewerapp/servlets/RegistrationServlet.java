@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -19,6 +20,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
+@Slf4j
 @WebServlet("/sign-on")
 public class RegistrationServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
@@ -50,9 +52,11 @@ public class RegistrationServlet extends HttpServlet {
                 resp.sendRedirect("/sign-in");
 
             } else {
+
                 throw new RegistrationException("The entered passwords are not equal");
             }
         } catch (RegistrationException e) {
+            log.error("The entered passwords are not equal", e);
             WebContext context = new WebContext(webExchange);
             context.setVariable("error", e.getMessage());
             templateEngine.process("sign-on.html", context, resp.getWriter());

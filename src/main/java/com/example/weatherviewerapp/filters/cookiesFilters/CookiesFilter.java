@@ -12,9 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-
 @Slf4j
-@WebFilter(urlPatterns = {"/home", "/getLocations"})
+@WebFilter(urlPatterns = {"/home", "/getLocations", "/"})
 public class CookiesFilter extends HttpFilter {
     private final CookieService cookieService = new CookieService();
 
@@ -24,23 +23,28 @@ public class CookiesFilter extends HttpFilter {
         String path = req.getRequestURI();
         Cookie cookie = cookieService.getSessionCookie(req);
 
-        if (cookie== null ||!cookieService.isCookieInDB(cookie)) {
+        if (cookie == null || !cookieService.isCookieInDB(cookie)) {
             res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             res.setHeader("Pragma", "no-cache");
             res.setDateHeader("Expires", 0);
             res.sendRedirect("/sign-in");
 
-        } else {
-            if (path.equals("/home")) {
-                log.info("Run the Cookie filter for /home");
-                cookieService.updateUserSession(cookie);
-                chain.doFilter(req, res);
-
-            } else if (path.equals("/getLocations")) {
-                log.info("Run the Cookie filter for /getLoctions");
-                cookieService.updateUserSession(cookie);
-                chain.doFilter(req, res);
+        } else
+            switch (path) {
+                case "/home" -> {
+                    log.info("Run the Cookie filter for /home");
+                    cookieService.updateUserSession(cookie);
+                    chain.doFilter(req, res);
+                }
+                case "/getLocations" -> {
+                    log.info("Run the Cookie filter for /getLocations");
+                    cookieService.updateUserSession(cookie);
+                    chain.doFilter(req, res);
+                }
+                case "/" -> {
+                    log.info("Run the Cookie filter for /");
+                    res.sendRedirect("/home");
+                }
             }
-        }
     }
 }

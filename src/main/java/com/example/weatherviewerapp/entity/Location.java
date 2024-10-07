@@ -1,8 +1,8 @@
 package com.example.weatherviewerapp.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ public class Location {
     private Long id;
 
     @Column(name = "name", length = 30)
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

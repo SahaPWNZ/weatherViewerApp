@@ -1,15 +1,18 @@
 package com.example.weatherviewerapp.dao;
 
-
 import com.example.weatherviewerapp.entity.UserSession;
+import com.example.weatherviewerapp.utils.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class SessionDAO extends BaseDAO<UserSession, String> {
+public class SessionDAO implements BaseDAO<UserSession, String> {
+    private final SessionFactory sessionFactory;
+
     public SessionDAO() {
-        super();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     public List<UserSession> findAll() {
@@ -18,13 +21,11 @@ public class SessionDAO extends BaseDAO<UserSession, String> {
         }
     }
 
-
     public Optional<UserSession> findById(String id) {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(UserSession.class, id));
         }
     }
-
 
     public UserSession save(UserSession entity) {
         try (Session session = sessionFactory.openSession()) {
@@ -34,7 +35,6 @@ public class SessionDAO extends BaseDAO<UserSession, String> {
             return entity;
         }
     }
-
 
     public void delete(String id) {
         try (Session session = sessionFactory.openSession()) {
@@ -48,5 +48,4 @@ public class SessionDAO extends BaseDAO<UserSession, String> {
             session.getTransaction().commit();
         }
     }
-
 }

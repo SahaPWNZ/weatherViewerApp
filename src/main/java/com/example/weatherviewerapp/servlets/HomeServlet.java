@@ -20,6 +20,7 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet {
     private final LocationsService locationsService = new LocationsService(new LocationsDAO());
     private final CookieService cookieService = new CookieService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 

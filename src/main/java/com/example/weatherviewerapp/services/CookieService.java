@@ -24,7 +24,6 @@ public class CookieService {
                 .filter(cookie -> cookie.getName().equals("sessionId"))
                 .findFirst()
                 .orElse(null);
-
     }
 
     public boolean isCookieInDB(Cookie cookie) {

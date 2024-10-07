@@ -1,7 +1,5 @@
 package com.example.weatherviewerapp.dto;
 
-
-
 import lombok.*;
 
 @Builder

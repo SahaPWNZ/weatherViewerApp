@@ -10,7 +10,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Optional;
 
-
 @Slf4j
 public class AuthorizationService {
     private final UserDAO userDAO;
@@ -22,17 +21,12 @@ public class AuthorizationService {
     public UserResponseDTO getUserDtoIfExist(UserRequestDTO userRequestDTO) {
         Optional<User> user = userDAO.findByLogin(userRequestDTO.getLogin());
 
-        if (user.isPresent()) {
-            log.info("A user with this login was found:" +userRequestDTO.getLogin());
-            if(BCrypt.checkpw(userRequestDTO.getPassword(), user.get().getPassword())){
-                return new UserResponseDTO(user.get().getId());
-            }
-            else{
-                throw new AuthenticationException("Invalid login or password");
-            }
+        if (user.isPresent() && BCrypt.checkpw(userRequestDTO.getPassword(), user.get().getPassword())) {
+            log.info("A user with this login was found:" + userRequestDTO.getLogin());
+            return new UserResponseDTO(user.get().getId());
         } else {
+
             throw new AuthenticationException("Invalid login or password");
         }
-
     }
 }

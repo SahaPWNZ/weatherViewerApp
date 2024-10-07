@@ -26,10 +26,11 @@ public class ConfigUtil {
         return Integer.parseInt(properties.getProperty("COOKIE.LIFETIME.EXT"));
     }
 
-    public static int getCookieAge(){
+    public static int getCookieAge() {
         return Integer.parseInt(properties.getProperty("COOKIE.AGE"));
     }
-//    public static String getDbHost() {
+
+    //    public static String getDbHost() {
 //        return properties.getProperty("DB.HOST");
 //    }
 //    public static String getDbPort() {
@@ -38,6 +39,7 @@ public class ConfigUtil {
     public static String getDbUser() {
         return properties.getProperty("DB.USER");
     }
+
     public static String getDbPass() {
         return properties.getProperty("DB.PASSWORD");
     }
