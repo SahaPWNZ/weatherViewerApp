@@ -1,7 +1,7 @@
-import com.example.weatherviewerapp.dao.SessionDAO;
+import com.example.weatherviewerapp.dao.SessionModelDAO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.entity.UserSession;
-import com.example.weatherviewerapp.utils.Scheduler;
+import com.example.weatherviewerapp.services.SchedulerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,9 +18,9 @@ import static org.mockito.Mockito.*;
 class TestScheduler {
 
     @Mock
-    private SessionDAO sessionDAO;
+    private SessionModelDAO sessionDAO;
     @InjectMocks
-    private Scheduler scheduler;
+    private SchedulerService scheduler;
     private final User testUser1 = User.builder()
             .id(1L)
             .build();
@@ -35,7 +35,7 @@ class TestScheduler {
         UserSession expiredSession = new UserSession("testUUID1", testUser1, new Timestamp(System.currentTimeMillis() - 100000));
         UserSession validSession = new UserSession("testUUID2", testUser2, new Timestamp(System.currentTimeMillis() + 100000));
 
-        when(sessionDAO.findAll()).thenReturn(List.of(expiredSession, validSession));
+        when(sessionDAO.getAll()).thenReturn(List.of(expiredSession, validSession));
 
         scheduler.run();
 

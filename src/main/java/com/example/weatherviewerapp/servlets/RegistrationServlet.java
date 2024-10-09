@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dao.UserModelDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.entity.User;
 import com.example.weatherviewerapp.exception.CustomException;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet("/sign-on")
 public class RegistrationServlet extends HttpServlet {
     private ThymleafHandler thymleafHandler;
-    private final UserDAO userDAO = new UserDAO();
+    private final UserModelDAO userDAO = new UserModelDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

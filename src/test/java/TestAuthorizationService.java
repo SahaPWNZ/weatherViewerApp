@@ -1,4 +1,4 @@
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dao.UserModelDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
@@ -23,7 +23,7 @@ class TestAuthorizationService {
     @InjectMocks
     private AuthorizationService authorizationService;
     @Mock
-    private UserDAO userDAO;
+    private UserModelDAO userDAO;
     private final static UserRequestDTO testRequestDTO = new UserRequestDTO("testLogin", "Pass");
 
 

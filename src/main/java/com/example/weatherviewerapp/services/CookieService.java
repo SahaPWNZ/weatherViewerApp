@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.services;
 
-import com.example.weatherviewerapp.dao.SessionDAO;
+import com.example.weatherviewerapp.dao.SessionModelDAO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.dto.UserSessionDTO;
 import com.example.weatherviewerapp.entity.User;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public class CookieService {
-    private static final SessionDAO sessionDAO = new SessionDAO();
+    private static final SessionModelDAO sessionDAO = new SessionModelDAO();
     private static final int COOKIE_LIFETIME_EXT = ConfigUtil.getCookieLifetimeExt();
     private static final int COOKIE_AGE = ConfigUtil.getCookieAge();
 

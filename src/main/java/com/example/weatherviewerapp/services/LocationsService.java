@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.services;
 
-import com.example.weatherviewerapp.dao.LocationsDAO;
+import com.example.weatherviewerapp.dao.LocationsModelDAO;
 import com.example.weatherviewerapp.dto.WeatherCardDTO;
 import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.entity.User;
@@ -11,9 +11,9 @@ import java.util.List;
 
 public class LocationsService {
     private final OpenWeatherService weatherService;
-    private final LocationsDAO locationsDAO;
+    private final LocationsModelDAO locationsDAO;
 
-    public LocationsService(LocationsDAO locationsDAO) {
+    public LocationsService(LocationsModelDAO locationsDAO) {
         this.weatherService = new OpenWeatherService();
         this.locationsDAO = locationsDAO;
     }

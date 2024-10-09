@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.LocationsDAO;
+import com.example.weatherviewerapp.dao.LocationsModelDAO;
 import com.example.weatherviewerapp.exception.CustomException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet("/deleteWeatherCard")
 public class DeleteWeatherCardServlet extends HttpServlet {
 
-    private final LocationsDAO locationsDAO = new LocationsDAO();
+    private final LocationsModelDAO locationsDAO = new LocationsModelDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

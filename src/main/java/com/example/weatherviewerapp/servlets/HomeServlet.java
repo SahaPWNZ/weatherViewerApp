@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.LocationsDAO;
+import com.example.weatherviewerapp.dao.LocationsModelDAO;
 import com.example.weatherviewerapp.services.CookieService;
 import com.example.weatherviewerapp.services.LocationsService;
 import com.example.weatherviewerapp.utils.ThymleafHandler;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
     private ThymleafHandler thymleafHandler;
-    private final LocationsService locationsService = new LocationsService(new LocationsDAO());
+    private final LocationsService locationsService = new LocationsService(new LocationsModelDAO());
     private final CookieService cookieService = new CookieService();
 
     @Override

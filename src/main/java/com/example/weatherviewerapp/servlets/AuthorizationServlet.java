@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dao.UserModelDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.exception.CustomException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @WebServlet("/sign-in")
 public class AuthorizationServlet extends HttpServlet {
     private ThymleafHandler thymleafHandler;
-    private final AuthorizationService authorizationService = new AuthorizationService(new UserDAO());
+    private final AuthorizationService authorizationService = new AuthorizationService(new UserModelDAO());
     private final CookieService cookieService = new CookieService();
 
     @Override

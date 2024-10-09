@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.services;
 
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dao.UserModelDAO;
 import com.example.weatherviewerapp.dto.UserRequestDTO;
 import com.example.weatherviewerapp.dto.UserResponseDTO;
 import com.example.weatherviewerapp.entity.User;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Slf4j
 public class AuthorizationService {
-    private final UserDAO userDAO;
+    private final UserModelDAO userDAO;
 
-    public AuthorizationService(UserDAO userDAO) {
+    public AuthorizationService(UserModelDAO userDAO) {
         this.userDAO = userDAO;
     }
 

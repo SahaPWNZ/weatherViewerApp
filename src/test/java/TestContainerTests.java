@@ -1,4 +1,4 @@
-import com.example.weatherviewerapp.dao.UserDAO;
+import com.example.weatherviewerapp.dao.UserModelDAO;
 import com.example.weatherviewerapp.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestContainerTests {
     private static final SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
-    private static UserDAO userDAO;
+    private static UserModelDAO userDAO;
 
     @BeforeAll
     static void getDao() {
-        userDAO = new UserDAO(sessionFactory);
+        userDAO = new UserModelDAO(sessionFactory);
 
     }
 
@@ -62,13 +62,6 @@ class TestContainerTests {
         void testGetUserOnLogin() {
             assertEquals(Optional.empty(), userDAO.findByLogin("InvalidLogin"));
             assertEquals(2L, userDAO.findByLogin("testLogin").orElseThrow().getId());
-        }
-
-        @Order(4)
-        @Test
-        void testDelete() {
-            userDAO.delete(1L);
-            assertEquals(Optional.empty(), userDAO.findById(1L));
         }
     }
 

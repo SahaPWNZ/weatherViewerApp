@@ -1,6 +1,6 @@
 package com.example.weatherviewerapp.servlets;
 
-import com.example.weatherviewerapp.dao.LocationsDAO;
+import com.example.weatherviewerapp.dao.LocationsModelDAO;
 import com.example.weatherviewerapp.entity.Location;
 import com.example.weatherviewerapp.exception.CustomException;
 import com.example.weatherviewerapp.services.CookieService;
@@ -23,7 +23,7 @@ public class LocationServlet extends HttpServlet {
     private ThymleafHandler thymleafHandler;
     private final CookieService cookieService = new CookieService();
     private final OpenWeatherService openWeatherService = new OpenWeatherService();
-    private final LocationsService locationsService = new LocationsService(new LocationsDAO());
+    private final LocationsService locationsService = new LocationsService(new LocationsModelDAO());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -65,7 +65,7 @@ public class LocationServlet extends HttpServlet {
     }
 
     private void longValidate(String value) {
-        if (value == null || value.isEmpty() || !value.matches("\\d+")) {
+        if (value == null || value.isEmpty()) {
             throw new CustomException("Invalid lat or lon location parameter");
         }
     }
