@@ -22,6 +22,7 @@
         <org.thymeleaf>3.1.0.M1</org.thymeleaf>
         <org.slf4j>2.0.13</org.slf4j>
         <org.mindrot>0.4</org.mindrot>
+        <org.liquibase>4.29.2</org.liquibase>
         <com.fasterxml.jackson.core>2.17.2</com.fasterxml.jackson.core>
     </properties>
 
@@ -112,6 +113,12 @@
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>${org.mindrot}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${org.liquibase}</version>
         </dependency>
 
 

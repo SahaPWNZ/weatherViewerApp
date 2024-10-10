@@ -9,11 +9,12 @@ import org.hibernate.cfg.Configuration;
 
 
 public class HibernateUtil {
-
+    private static final LiquibaseRunnerUtil liquibaseRunner = new LiquibaseRunnerUtil();
     @Getter
     private static final SessionFactory sessionFactory;
 
     static {
+        liquibaseRunner.runLiquibase();
         sessionFactory = getConfiguration()
                 .buildSessionFactory();
     }

@@ -5,7 +5,7 @@ CREATE TABLE Users
     password VARCHAR(150)        NOT NULL
 );
 
-DROP TABLE Users;
+DROP TABLE users;
 
 CREATE TABLE Locations
 (
@@ -17,9 +17,9 @@ CREATE TABLE Locations
     FOREIGN KEY (user_Id) REFERENCES Users (id) ON DELETE CASCADE
 );
 
-DROP TABLE Locations;
+DROP TABLE locations;
 
-DROP TABLE Sessions;
+DROP TABLE sessions;
 
 CREATE TABLE Sessions
 (

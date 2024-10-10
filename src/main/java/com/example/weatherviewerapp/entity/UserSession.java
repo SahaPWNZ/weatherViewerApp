@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Sessions")
+@Table(name = "sessions")
 public class UserSession {
     @Id
     @Column(name = "id", length = 36, nullable = false)
@@ -19,7 +19,7 @@ public class UserSession {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @Column(name = "expiresAt", nullable = false)
+    @Column(name = "activetime", nullable = false)
     private Timestamp activeTime;
 
     @Override

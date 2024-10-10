@@ -14,7 +14,7 @@ import java.util.Optional;
 @Slf4j
 public class SessionModelDAO implements SessionDAO {
     private final SessionFactory sessionFactory;
-    private final static String GET_ALL = "select u from UserSession u";
+    private final static String GET_ALL = "from UserSession";
     private final static String FIND_BY_ID = "select u from UserSession u where u.id = :id";
 
     public SessionModelDAO() {

@@ -9,11 +9,11 @@
         <property name="hibernate.use_sql_comments">true</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <!-- для локального запуска -->
-                <property name="connection.url">jdbc:postgresql://localhost:5432/weather_app_db</property>
+<!--        <property name="connection.url">jdbc:postgresql://localhost:5432/weather_app_db</property>-->
         <!-- для запуска через докер компоуз -->
-<!--        <property name="connection.url">jdbc:postgresql://postgres:5432/weather_app_db</property>-->
+                <property name="connection.url">jdbc:postgresql://postgres:5432/weather_app_db</property>
         <property name="connection.username">saha</property>
         <property name="connection.password">saha</property>
-        <!--        <property name="hbm2ddl.auto">create-drop</property>-->
+        <property name="hbm2ddl.auto">update</property>
     </session-factory>
 </hibernate-configuration>
